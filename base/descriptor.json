@@ -1,0 +1,41 @@
+{
+    "friendlyName": "Cauldron Editor",
+    "description": "The base core functionality of Cauldron",
+    "dependencies": [
+        "/wpm_js_libs/?raw #cQuery",
+        "/wpm_js_libs/?raw #CaviTouch",
+        "/wpm_js_libs/?raw #golden-layout",
+        "/wpm_js_libs/?raw #golden-layout_material-design-theme",
+        "/wpm_js_libs/?raw #Uploader",
+        "/webstrate-components-repos/?raw #EdgeDocker",
+        "/webstrate-components-repos/?raw #FragmentLogoIcons",
+        "/webstrate-components-repos/?raw #WebstrateIcons",
+        "/webstrate-components-repos/?raw #MaterialDesignOutlinedIcons",        
+        "/webstrate-components-repos/?raw #MaterialMenu",
+        "/webstrate-components-repos/?raw #TreeBrowser",
+        "/webstrate-components-repos/?raw #ButtonSystem",
+        "/webstrate-components-repos/?raw #ButtonSystem_MaterialDesign",
+        "/webstrate-components-repos/?raw #RevisionBrowser",
+        "/webstrate-components-repos/?raw #PermissionManager",
+        "/webstrate-components-repos/?raw #WPMPackageBrowser",
+        "/webstrate-components-repos/?raw #ModalDialog",
+        "/codestrates-repos/?raw #editor_monaco",
+        "#CauldronMainMenu",
+        "#CauldronActionMenu",
+        "#NewWebstrateActions",
+        "#CauldronEditorViewActions",
+        "#CauldronInspector",
+        "#CauldronConsole",
+        "#CauldronEditor",
+        "#CauldronNamespace",
+        "#CauldronEditorCodestratesActions",
+        "#CauldronEditorDocumentation",
+        "#CauldronCollaboration"
+    ],
+    "assets": [],
+    "version": "0.1",
+    "license": "Apache 2.0",    
+    "changelog": {
+        "0.1": "Initial version"
+    }
+}

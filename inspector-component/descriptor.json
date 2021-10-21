@@ -1,0 +1,13 @@
+{
+    "friendlyName": "Cauldron Inspector",
+    "description": "Provides a list view of editable attributes and parameters",
+    "dependencies": [
+        "#CauldronNamespace"
+    ],
+    "assets": [],
+    "version": "0.1",
+    "license": "Apache 2.0",    
+    "changelog": {
+        "0.1": "Initial version"
+    }
+}

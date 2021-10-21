@@ -1,0 +1,13 @@
+{
+    "friendlyName": "Editor View Actions",
+    "description": "Actions that change Cauldron",
+    "dependencies": [
+        "/webstrate-components-repos/?raw #MenuSystem"
+    ],
+    "assets": [],
+    "version": "0.1",
+    "license": "Apache 2.0",    
+    "changelog": {
+        "0.1": "Initial version"
+    }
+}

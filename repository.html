@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Cauldron IDE for Codestrates</title>
+        <meta charset="UTF-8">
+    </head> 
+    <body> 
+        <div class="packages">
+            <div class="package" id="CauldronNamespace">
+                <script src="cauldron-namespace/descriptor.json" type="descriptor"></script>
+                <script src="cauldron-namespace/namespace.js" type="disabled"></script>
+            </div>
+
+            <div class="package" id="Cauldron">
+                <script src="base/descriptor.json" type="descriptor"></script>
+                <script src="base/base.js" type="disabled"></script>
+                <link href="base/scss/main.scss" rel="stylesheet" type="text/css"/>
+            </div>    
+            
+            <!-- Menu structures and actions -->            
+            <div class="package" id="CauldronMainMenu">
+                <script src="main-menubar-component/descriptor.json" type="descriptor"></script>
+                <script src="main-menubar-component/mainmenu.js" type="disabled"></script>
+                <link href="main-menubar-component/css/mainmenu.css" rel="stylesheet" type="text/css"/>
+            </div>    
+            <div class="package" id="CauldronActionMenu">
+                <script src="main-actionmenu-component/descriptor.json" type="descriptor"></script>
+                <script src="main-actionmenu-component/actionmenu.js" type="disabled"></script>
+                <link href="main-actionmenu-component/scss/actionmenu.scss" rel="stylesheet" type="text/css"/>
+            </div>    
+            <div class="package" id="NewWebstrateActions">
+                <script src="actions/webstrate/new-webstrate-actions/descriptor.json" type="descriptor"></script>
+                <script src="actions/webstrate/new-webstrate-actions/new-webstrate-actions.js" type="disabled"></script>
+            </div>                
+            <div class="package" id="CauldronEditorViewActions">
+                <script src="actions/editor/view/descriptor.json" type="descriptor"></script>
+                <script src="actions/editor/view/cauldron-editor-view-actions.js" type="disabled"></script>
+            </div>
+            <div class="package" id="CauldronEditorCodestratesActions">
+                <script src="actions/codestrates/descriptor.json" type="descriptor"></script>
+                <script src="actions/codestrates/fragment-actions.js" type="disabled"></script>
+                <script src="actions/codestrates/asset-actions.js" type="disabled"></script>
+            </div>
+            <div class="package" id="CauldronEditorDocumentation">
+                <script src="actions/help/documentation/descriptor.json" type="descriptor"></script>
+                <script src="actions/help/documentation/documentation.js" type="disabled"></script>
+            </div>
+
+            <!-- Primary Components -->            
+            <div class="package" id="CauldronConsole">
+                <script src="console-component/descriptor.json" type="descriptor"></script>
+                <script src="console-component/console.js" type="disabled"></script>
+                <link href="console-component/scss/main.scss" rel="stylesheet" type="text/css"/>
+            </div>
+            <div class="package" id="CauldronInspector">
+                <script src="inspector-component/inspector.js" type="disabled"></script>
+                <script src="inspector-component/content-bindings/inspector-htmlnode/InspectorHTMLBinding.js" type="disabled"></script>
+                <script src="inspector-component/content-bindings/inspector-assets/InspectorAssetBinding.js" type="disabled"></script>
+                <script src="inspector-component/descriptor.json" type="descriptor"></script>
+                <link href="inspector-component/scss/main.scss" rel="stylesheet" type="text/css"/>
+            </div>
+            <div class="package" id="CauldronEditor">
+                <script src="editor-component/descriptor.json" type="descriptor"></script>
+                <script src="editor-component/editor-component.js" type="disabled"></script>
+                <link href="editor-component/scss/main.scss" rel="stylesheet" type="text/css"/>
+            </div>
+
+            <div class="package" id="CauldronCollaboration">
+                <script src="collaboration/descriptor.json" type="descriptor"></script>
+                <script src="collaboration/collaboration.js" type="disabled"></script>
+                <inline src="collaboration/templates.html"></inline>
+                <link href="collaboration/scss/main.scss" rel="stylesheet" type="text/css"/>
+            </div>
+            
+            <!-- Launchers -->            
+            <div class="package" id="CauldronLauncher">
+                <script src="launchers/cauldron-launcher/descriptor.json" type="descriptor"></script>
+                <script src="launchers/cauldron-launcher/cauldron-launcher.js" type="disabled"></script>
+            </div>            
+            <div class="package" id="CauldronButtonLauncher">
+                <script src="launchers/button-launcher/descriptor.json" type="descriptor"></script>
+                <script src="launchers/button-launcher/button-launcher.js" type="disabled"></script>
+            </div>            
+            <div class="package" id="CauldronAutoLauncher">
+                <script src="launchers/auto-launcher/descriptor.json" type="descriptor"></script>
+                <script src="launchers/auto-launcher/auto-launcher.js" type="disabled"></script>
+            </div>                  
+            <div class="package" id="CauldronURLLauncher">
+                <script src="launchers/url-launcher/descriptor.json" type="descriptor"></script>
+                <script src="launchers/url-launcher/url-launcher.js" type="disabled"></script>
+            </div>                              
+        </div>
+    </body>
+</html>

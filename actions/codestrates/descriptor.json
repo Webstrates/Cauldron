@@ -1,0 +1,14 @@
+{
+    "friendlyName": "Codestrates Actions",
+    "description": "Several actions that apply to code fragments",
+    "dependencies": [
+        "/webstrate-components-repos/?raw #MenuSystem",
+        "/webstrate-components-repos/?raw #wsc-icon-registry"
+    ],
+    "assets": [],
+    "version": "0.1",
+    "license": "Apache 2.0",
+    "changelog": {
+        "0.1": "Initial version"
+    }
+}

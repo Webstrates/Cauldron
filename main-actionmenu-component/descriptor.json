@@ -1,0 +1,13 @@
+{
+    "friendlyName": "Main Actionbar",
+    "description": "Provides a small area for prominent actions",
+    "dependencies": [
+        "/webstrate-components-repos/?raw #MenuSystem"
+    ],
+    "assets": [],
+    "version": "0.1",
+    "license": "Apache 2.0",
+    "changelog": {
+        "0.1": "Initial version"
+    }
+}

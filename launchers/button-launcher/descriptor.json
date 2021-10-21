@@ -1,0 +1,13 @@
+{
+    "friendlyName": "Cauldron Edit Button",
+    "description": "A floating edit button on your page that launches Cauldron",
+    "dependencies": [
+        "#CauldronLauncher"
+    ],
+    "assets": [],
+    "version": "0.1",
+    "license": "Apache 2.0",    
+    "changelog": {
+        "0.1": "Initial version"
+    }
+}

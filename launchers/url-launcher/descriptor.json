@@ -1,0 +1,14 @@
+{
+    "friendlyName": "Cauldron Edit URL",
+    "description": "Launches Cauldron when ?edit is added to the URL of the page, also adds the Popup option to the Views menu",
+    "dependencies": [
+        "#CauldronLauncher",
+        "/codestrates-repos/?raw #EventSystem"
+    ],
+    "assets": [],
+    "version": "0.1",
+    "license": "Apache 2.0",    
+    "changelog": {
+        "0.1": "Initial version"
+    }
+}
