@@ -175,6 +175,7 @@ MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
     group: "inserters",
     groupOrder: -1,
     onOpen: (menu)=>{
+        if (!window.DescriptorFragment) return false;
         return menu.context.type == "DomTreeNode" && !menu.context.context.matches("code-fragment, wpm-package");
     },
     onAction: (menuItem)=>{
@@ -243,10 +244,9 @@ MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
     order: 0,
     group: "inserters",
     groupOrder: -1,
-    onAction: ()=>{
-      console.log("hej");
-    },
     onOpen: (menu)=>{
+        if (Fragment.fragmentTypes.size === 0) return false;
+        
         let canOpen = menu.context.type == "DomTreeNode" && !menu.context.context.matches("code-fragment");
         
         // Check for new fragments not already registered in the menu
