@@ -61,7 +61,7 @@
 
     MenuSystem.MenuManager.registerMenuItem("Cauldron.Help.Documentation", {
         label: "Webstrate Package Manager",
-        icon: IconRegistry.createIcon("webstrates:wpm"),
+        icon: IconRegistry.createIcon("webstrates:wpm-package-open"),
         onAction: () => {
             window.open("https://webstrate.projects.cavi.au.dk/docs/wpmv2/");
         }
