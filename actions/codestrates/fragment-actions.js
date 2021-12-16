@@ -70,7 +70,7 @@ MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
     icon: IconRegistry.createIcon("mdc:play_circle_outline"),
     tooltip: "Execute the contents of this fragment when the page loads",    
     group: "EditActions",
-    groupOrder: 9000,
+    groupOrder: 200,
     order: 200,
     onOpen: (menu)=>{
         if(menu.context.type == "DomTreeNode" && menu.context.context.matches("code-fragment") && !Fragment.one(menu.context.context).auto) {
@@ -88,7 +88,7 @@ MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
     icon: IconRegistry.createIcon("mdc:play_circle_outline"),
     tooltip: "Stop executing the contents of this fragment when the page loads",        
     group: "EditActions",
-    groupOrder: 9000,
+    groupOrder: 200,
     order: 200,
     onOpen: (menu)=>{
         if(menu.context.type == "DomTreeNode" && menu.context.context.matches("code-fragment") && Fragment.one(menu.context.context).auto) {
@@ -185,9 +185,9 @@ MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
 MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
     label: "Move Up",
     icon: IconRegistry.createIcon("mdc:north"),
-    group: "ViolentActions",
+    group: "EditActions",
     groupOrder: 9000,
-    order: 100,
+    order: 1000,
     onOpen: (menu)=>{
         if(menu.context.type === "DomTreeNode"){
             let children = Array.from(menu.context.context.parentNode.children);
@@ -203,9 +203,9 @@ MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
 MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
     label: "Move Down",
     icon: IconRegistry.createIcon("mdc:south"),
-    group: "ViolentActions",
+    group: "EditActions",
     groupOrder: 9000,
-    order: 100,
+    order: 1001,
     onOpen: (menu)=>{
         if(menu.context.type === "DomTreeNode"){
             let children = Array.from(menu.context.context.parentNode.children);
@@ -216,6 +216,20 @@ MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
         let children = Array.from(menuItem.menu.context.context.parentNode.children);
         let currentIndex = children.indexOf(menuItem.menu.context.context);
         menuItem.menu.context.context.parentNode.insertBefore(menuItem.menu.context.context, currentIndex===children.length-2?null:children[currentIndex+2]);
+    }
+});
+
+MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
+    label: "Duplicate",
+    icon: IconRegistry.createIcon("mdc:content_copy"),
+    group: "EditActions",
+    groupOrder: 9000,
+    order: 900,
+    onOpen: (menu)=>menu.context.type === "DomTreeNode",
+    onAction: (menuItem)=>{
+        let clone = menuItem.menu.context.context.cloneNode(true);
+        WPMv2.stripProtection(clone);
+        menuItem.menu.context.context.parentNode.insertBefore(clone, menuItem.menu.context.context);
     }
 });
 
