@@ -173,7 +173,7 @@ class InspectorAssetPreviewElement extends Cauldron.InspectorElement {
             case "image/x-icon":
             case "image/png":
                 element = document.createElement("img");
-                element.src = location.href + this.treeNode.context["fileName"];
+                element.src = location.href.split("?")[0] + this.treeNode.context["fileName"];
                 break;
                 
             case "video/x-matroska":
@@ -182,7 +182,7 @@ class InspectorAssetPreviewElement extends Cauldron.InspectorElement {
             case "video/webm":
             case "video/opgg":
                 element = document.createElement("video");
-                element.src = location.href + this.treeNode.context["fileName"];
+                element.src = location.href.split("?")[0] + this.treeNode.context["fileName"];
                 element.setAttribute("controls", true);
                 break;
                 
@@ -191,7 +191,7 @@ class InspectorAssetPreviewElement extends Cauldron.InspectorElement {
             case "audio/ogg":
             case "audio/mpeg":
                 element = document.createElement("audio");
-                element.src = location.href + this.treeNode.context["fileName"];
+                element.src = location.href.split("?")[0] + this.treeNode.context["fileName"];
                 element.setAttribute("controls", true);
                 break;
 
