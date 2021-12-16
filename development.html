@@ -2308,6 +2308,42 @@ MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
         });
     }
 });
+MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
+    label: "Move Up",
+    icon: IconRegistry.createIcon("mdc:north"),
+    group: "ViolentActions",
+    groupOrder: 9000,
+    order: 100,
+    onOpen: (menu)=>{
+        if(menu.context.type === "DomTreeNode"){
+            let children = Array.from(menu.context.context.parentNode.children);
+            return children.indexOf(menu.context.context)>0;
+        }
+    },
+    onAction: (menuItem)=>{
+        let children = Array.from(menuItem.menu.context.context.parentNode.children);
+        let currentIndex = children.indexOf(menuItem.menu.context.context);
+        menuItem.menu.context.context.parentNode.insertBefore(menuItem.menu.context.context, children[currentIndex-1]);
+    }
+});
+MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
+    label: "Move Down",
+    icon: IconRegistry.createIcon("mdc:south"),
+    group: "ViolentActions",
+    groupOrder: 9000,
+    order: 100,
+    onOpen: (menu)=>{
+        if(menu.context.type === "DomTreeNode"){
+            let children = Array.from(menu.context.context.parentNode.children);
+            return children.indexOf(menu.context.context)<children.length-1;
+        }
+    },
+    onAction: (menuItem)=>{        
+        let children = Array.from(menuItem.menu.context.context.parentNode.children);
+        let currentIndex = children.indexOf(menuItem.menu.context.context);
+        menuItem.menu.context.context.parentNode.insertBefore(menuItem.menu.context.context, currentIndex===children.length-2?null:children[currentIndex+2]);
+    }
+});
 
 EventSystem.registerEventCallback("Codestrates.DomNode.Delete", ({detail: {treeNode: treeNode}})=>{
     let decision = confirm("Really delete: "+treeNode.getProperty("content"));
