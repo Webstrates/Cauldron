@@ -63,31 +63,53 @@ MenuSystem.MenuManager.registerMenuItem("Cauldron.Editor.Toolbar", {
         return false;
     }
 });
+
+// Single-element Autorun On/Off
 MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
-    label: "Toggle Autorun",
+    label: "Enable Autorun",
     icon: IconRegistry.createIcon("mdc:play_circle_outline"),
+    tooltip: "Execute the contents of this fragment when the page loads",    
     group: "EditActions",
     groupOrder: 9000,
     order: 200,
     onOpen: (menu)=>{
-        if(menu.context.type == "DomTreeNode" && menu.context.context.matches("code-fragment")) {
+        if(menu.context.type == "DomTreeNode" && menu.context.context.matches("code-fragment") && !Fragment.one(menu.context.context).auto) {
             return true;
         }
     },
     onAction: (menuItem)=>{
-        EventSystem.triggerEvent("Codestrates.Fragment.Auto", {
+        EventSystem.triggerEvent("Codestrates.Fragment.AutoOn", {
             fragment: Fragment.one(menuItem.menu.context.context)
         });
     }
 });
 MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
-    label: "Enable child fragment auto",
+    label: "Disable Autorun",
+    icon: IconRegistry.createIcon("mdc:play_circle_outline"),
+    tooltip: "Stop executing the contents of this fragment when the page loads",        
+    group: "EditActions",
+    groupOrder: 9000,
+    order: 200,
+    onOpen: (menu)=>{
+        if(menu.context.type == "DomTreeNode" && menu.context.context.matches("code-fragment") && Fragment.one(menu.context.context).auto) {
+            return true;
+        }
+    },
+    onAction: (menuItem)=>{
+        EventSystem.triggerEvent("Codestrates.Fragment.AutoOff", {
+            fragment: Fragment.one(menuItem.menu.context.context)
+        });
+    }
+});
+
+MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
+    label: "Enable Autorun Recursively",
     icon: IconRegistry.createIcon("mdc:play_circle_outline"),
     group: "FragmentActions",
     groupOrder: 9000,
     order: 205,
     onOpen: (menu)=>{
-        if(menu.context.type == "DomTreeNode" && menu.context.context.querySelector("code-fragment") != null) {
+        if(menu.context.type == "DomTreeNode" && menu.context.context.querySelector("code-fragment:not([auto])") != null) {
             return true;
         }
     },
@@ -102,13 +124,13 @@ MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
     }
 });
 MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
-    label: "Disable child fragment auto",
+    label: "Disable Autorun Recursively",
     icon: IconRegistry.createIcon("mdc:play_circle_outline"),
     group: "FragmentActions",
     groupOrder: 9000,
     order: 210,
     onOpen: (menu)=>{
-        if(menu.context.type == "DomTreeNode" && menu.context.context.querySelector("code-fragment") != null) {
+        if(menu.context.type == "DomTreeNode" && menu.context.context.querySelector("code-fragment[auto]") != null) {
             return true;
         }
     },
