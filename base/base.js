@@ -659,6 +659,38 @@ class CauldronBase {
                                 if (icon) {
                                     tab.titleElement.prepend(icon);
                                 }
+                                
+                                // Setup context menu for tab
+                                tab.element[0].addEventListener("contextmenu", (e)=>{
+                                    e.preventDefault();
+                                });
+                                tab.element[0].addEventListener("mouseup", (e)=>{          
+                                    if(e.button !== 2) {
+                                       return;
+                                    }
+                                    let contextMenu = MenuSystem.MenuManager.createMenu("Cauldron.Tab.ContextMenu", {
+                                        context: {tab:tab, editor:editorComponent},
+                                        groupDividers: true
+                                    });        
+                                    contextMenu.registerOnCloseCallback(()=>{
+                                        if(contextMenu.html.parentNode != null) {
+                                            contextMenu.html.parentNode.removeChild(contextMenu.html);
+                                        }
+                                    });      
+
+                                    //Find top component after html
+                                    let parent = tab.element[0];
+                                    while(parent.parentNode != null && !parent.parentNode.matches("html")) {
+                                        parent = parent.parentNode;
+                                    }
+                                    parent.appendChild(contextMenu.html);
+                                    contextMenu.open({
+                                        x: e.pageX,
+                                        y: e.pageY
+                                    });
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                });
 
                                 lastTooltop = editorComponent.tooltip;
                                 lastTitle = editorComponent.title;
