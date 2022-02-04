@@ -152,7 +152,6 @@ class InspectorAttributeEditor extends Cauldron.InspectorElement {
         });
 
         function handleMutations(mutations) {
-            console.log("Mutations:", mutations.slice());
             //Attribute changed, update editor
             if(mutations.length > 0) {
                 self.editor.value = self.domElement.getAttribute(self.attrName);
@@ -181,7 +180,6 @@ class InspectorAttributeEditor extends Cauldron.InspectorElement {
         });
 
         this.html.addEventListener("input", (evt)=>{
-            console.log("Input:", evt);
             pauseObserver();
             self.domElement.setAttribute(self.attrName, self.editor.value);
             setTimeout(()=>{
