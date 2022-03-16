@@ -1298,20 +1298,26 @@ class CauldronBase {
             }
         }
 
-        EventSystem.registerEventCallback("TreeBrowser.TreeNode.Dropped", ({detail: { draggedNode: draggedNode, droppedNode: droppedNode, dropEffect: dropEffect}})=>{
-            if(draggedNode.type === "DomTreeNode" && droppedNode.type === "DomTreeNode" && !droppedNode.context.matches("code-fragment")) {
-                try {
-                    if(dropEffect === "move") {
-                        droppedNode.context.appendChild(draggedNode.context);
-                    } else if(dropEffect === "copy") {
-                        let clone = draggedNode.context.cloneNode(true);
-                        WPMv2.stripProtection(clone);
-                        droppedNode.context.appendChild(clone);
+        EventSystem.registerEventCallback("TreeBrowser.TreeNode.Dropped", ({detail: { draggedNode: draggedNode, droppedNode: droppedNode, dropEffect: dropEffect, dragEvent: dragEvent}})=>{
+            if(draggedNode.type === "DomTreeNode" && droppedNode.type === "DomTreeNode") {
+                if(dragEvent.altKey && dropEffect === "move") {
+                    //Move to before target
+                    droppedNode.context.parentNode.insertBefore(draggedNode.context, droppedNode.context);
+                } else if(!droppedNode.context.matches("code-fragment")) {
+                    try {
+                        if(dropEffect === "move") {
+                            //Move inside target
+                            droppedNode.context.appendChild(draggedNode.context);
+                        } else if(dropEffect === "copy") {
+                            let clone = draggedNode.context.cloneNode(true);
+                            WPMv2.stripProtection(clone);
+                            droppedNode.context.appendChild(clone);
+                        }
+                        droppedNode.unfold();
+                    } catch(e) {
+                        //Hide errors
+                        console.error(e);
                     }
-                    droppedNode.unfold();
-                } catch(e) {
-                    //Hide errors
-                    console.error(e);
                 }
             }
 
@@ -1451,11 +1457,22 @@ class CauldronBase {
                         }
                     });
 
+
                     let dragged = document.querySelector("[transient-drag-id='" + dragUUID + "']");
                     if (dragged != null && dragged.treeNode != null) {
                         handled = true;
                         if(dragged.treeNode.type === "DomTreeNode" ) {
-                            if(!node.context.matches("code-fragment, wpm-package") && node.context.closest("wpm-package") == null) {
+                            if(evt.altKey) {
+                                //We are insertingBefore, not appending, only non allowed action is wpm-package inside wpm-package?
+                                let draggedIsWpmPackage = dragged.treeNode.context.matches("wpm-package") || dragged.treeNode.context.querySelector("wpm-package") != null;
+                                let droppedIsInsideWpmPackage = !node.context.matches("wpm-package") && node.context.closest("wpm-package") != null;
+
+                                let droppedIsBody = node.context.matches("body");
+
+                                if(!droppedIsBody && (!droppedIsInsideWpmPackage || !draggedIsWpmPackage)) {
+                                    defaultDropEffect = true;
+                                }
+                            } else if(!node.context.matches("code-fragment, wpm-package") && node.context.closest("wpm-package") == null) {
                                 //We are not dragging inside code-fragment or wpm-package
                                 if (!dragged.treeNode.context.contains(node.context)) {
                                     defaultDropEffect = true;
