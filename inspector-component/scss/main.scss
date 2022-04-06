@@ -78,15 +78,16 @@
                 grid-column-start: field;
                 justify-self: stretch;
                 padding: 0.25em;
-                
-                &.cauldron-inspector-element-editor {
-                    background: transparent;
-                    border: 0;
-                    border-bottom: 1px solid rgba(100,100,100,0.15);
-                    min-width: 2em;
-                }
             }
-            
+
+            .cauldron-inspector-element-editor {
+                background: transparent;
+                border: 0;
+                border-bottom: 1px solid rgba(100,100,100,0.15);
+                min-width: 2em;
+                width: 95%;
+            }
+
             .cauldron-inspector-element-asset-preview {
                 grid-column: 1/-1;
                 height: 5em;
