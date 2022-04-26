@@ -2,7 +2,7 @@
     "friendlyName": "Cauldron collabration module",
     "description": "Provides features for showing collaborators in different ways",
     "dependencies": [
-        "/codestrates-repos/?raw #EventSystem"
+        "codestrates-repos #EventSystem"
     ],
     "assets": [],
     "version": "0.1",

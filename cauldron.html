@@ -38,24 +38,24 @@ window.Cauldron = {};
     "friendlyName": "Cauldron Editor",
     "description": "The base core functionality of Cauldron",
     "dependencies": [
-        "https://raw.githubusercontent.com/Webstrates/WebstrateLibraryRepository/master/libraries.html #cQuery",
-        "https://raw.githubusercontent.com/Webstrates/WebstrateLibraryRepository/master/libraries.html #CaviTouch",
-        "https://raw.githubusercontent.com/Webstrates/WebstrateLibraryRepository/master/libraries.html #golden-layout",
-        "https://raw.githubusercontent.com/Webstrates/WebstrateLibraryRepository/master/libraries.html #golden-layout_material-design-theme",
-        "https://raw.githubusercontent.com/Webstrates/WebstrateLibraryRepository/master/libraries.html #Uploader",
-        "https://raw.githubusercontent.com/Webstrates/WebstrateComponents/master/components.html #EdgeDocker",
-        "https://raw.githubusercontent.com/Webstrates/WebstrateComponents/master/components.html #FragmentLogoIcons",
-        "https://raw.githubusercontent.com/Webstrates/WebstrateComponents/master/components.html #WebstrateIcons",
-        "https://raw.githubusercontent.com/Webstrates/WebstrateComponents/master/components.html #MaterialDesignOutlinedIcons",        
-        "https://raw.githubusercontent.com/Webstrates/WebstrateComponents/master/components.html #MaterialMenu",
-        "https://raw.githubusercontent.com/Webstrates/WebstrateComponents/master/components.html #TreeBrowser",
-        "https://raw.githubusercontent.com/Webstrates/WebstrateComponents/master/components.html #ButtonSystem",
-        "https://raw.githubusercontent.com/Webstrates/WebstrateComponents/master/components.html #ButtonSystem_MaterialDesign",
-        "https://raw.githubusercontent.com/Webstrates/WebstrateComponents/master/components.html #RevisionBrowser",
-        "https://raw.githubusercontent.com/Webstrates/WebstrateComponents/master/components.html #PermissionManager",
-        "https://raw.githubusercontent.com/Webstrates/WebstrateComponents/master/components.html #WPMPackageBrowser",
-        "https://raw.githubusercontent.com/Webstrates/WebstrateComponents/master/components.html #ModalDialog",
-        "https://raw.githubusercontent.com/Webstrates/Codestrates-v2/master/codestrates.html #editor_monaco",
+        "wpm_js_libs #cQuery",
+        "wpm_js_libs #CaviTouch",
+        "wpm_js_libs #golden-layout",
+        "wpm_js_libs #golden-layout_material-design-theme",
+        "wpm_js_libs #Uploader",
+        "webstrate-components-repos #EdgeDocker",
+        "webstrate-components-repos #FragmentLogoIcons",
+        "webstrate-components-repos #WebstrateIcons",
+        "webstrate-components-repos #MaterialDesignOutlinedIcons",
+        "webstrate-components-repos #MaterialMenu",
+        "webstrate-components-repos #TreeBrowser",
+        "webstrate-components-repos #ButtonSystem",
+        "webstrate-components-repos #ButtonSystem_MaterialDesign",
+        "webstrate-components-repos #RevisionBrowser",
+        "webstrate-components-repos #PermissionManager",
+        "webstrate-components-repos #WPMPackageBrowser",
+        "webstrate-components-repos #ModalDialog",
+        "codestrates-repos #editor_monaco",
         "#CauldronMainMenu",
         "#CauldronActionMenu",
         "#NewWebstrateActions",
@@ -1646,7 +1646,7 @@ window.Cauldron.Cauldron = CauldronBase;
     "friendlyName": "Main Menu",
     "description": "Provides the main menu for the editor",
     "dependencies": [
-        "https://raw.githubusercontent.com/Webstrates/WebstrateComponents/master/components.html #MenuSystem"
+        "webstrate-components-repos #MenuSystem"
     ],
     "assets": [],
     "version": "0.1",
@@ -1744,7 +1744,7 @@ window.CauldronMainMenu = class MainMenu {
     "friendlyName": "Main Actionbar",
     "description": "Provides a small area for prominent actions",
     "dependencies": [
-        "https://raw.githubusercontent.com/Webstrates/WebstrateComponents/master/components.html #MenuSystem"
+        "webstrate-components-repos #MenuSystem"
     ],
     "assets": [],
     "version": "0.1",
@@ -1832,7 +1832,7 @@ window.CauldronActionMenu = class MainActions {
     "friendlyName": "New Webstrate",
     "description": "Actions that can create new Webstrates",
     "dependencies": [
-        "https://raw.githubusercontent.com/Webstrates/WebstrateComponents/master/components.html #MenuSystem"
+        "webstrate-components-repos #MenuSystem"
     ],
     "assets": [],
     "version": "0.1",
@@ -2024,7 +2024,7 @@ window.CauldronActionMenu = class MainActions {
     "friendlyName": "Editor View Actions",
     "description": "Actions that change Cauldron",
     "dependencies": [
-        "https://raw.githubusercontent.com/Webstrates/WebstrateComponents/master/components.html #MenuSystem"
+        "webstrate-components-repos #MenuSystem"
     ],
     "assets": [],
     "version": "0.1",
@@ -2160,7 +2160,7 @@ window.CauldronActionMenu = class MainActions {
     "friendlyName": "Editor Tabs Actions",
     "description": "Actions that affect editor tabs",
     "dependencies": [
-        "https://raw.githubusercontent.com/Webstrates/WebstrateComponents/master/components.html #MenuSystem"
+        "webstrate-components-repos #MenuSystem"
     ],
     "assets": [],
     "version": "0.1",
@@ -2247,8 +2247,8 @@ window.CauldronActionMenu = class MainActions {
     "friendlyName": "Codestrates Actions",
     "description": "Several actions that apply to code fragments",
     "dependencies": [
-        "https://raw.githubusercontent.com/Webstrates/WebstrateComponents/master/components.html #MenuSystem",
-        "https://raw.githubusercontent.com/Webstrates/WebstrateComponents/master/components.html #wsc-icon-registry"
+        "webstrate-components-repos #MenuSystem",
+        "webstrate-components-repos #wsc-icon-registry"
     ],
     "assets": [],
     "version": "0.1",
@@ -2837,7 +2837,7 @@ EventSystem.registerEventCallback("Codestrates.Asset.Delete", async ({detail: {a
     "friendlyName": "Documentation Help Menu",
     "description": "Documentation for the help menu",
     "dependencies": [
-        "https://raw.githubusercontent.com/Webstrates/WebstrateComponents/master/components.html #MenuSystem"
+        "webstrate-components-repos #MenuSystem"
     ],
     "assets": [],
     "version": "0.1",
@@ -4413,7 +4413,7 @@ window.Cauldron.CauldronEditor = CauldronEditor;
     "friendlyName": "Cauldron collabration module",
     "description": "Provides features for showing collaborators in different ways",
     "dependencies": [
-        "https://raw.githubusercontent.com/Webstrates/Codestrates-v2/master/codestrates.html #EventSystem"
+        "codestrates-repos #EventSystem"
     ],
     "assets": [],
     "version": "0.1",
@@ -4965,7 +4965,7 @@ Cauldron.Collaboration.sendUserInfoSignal();
 // Create function on window to install Cauldron editor
 window.cauldronEditor = async () => {
     if(typeof Cauldron === "undefined" || typeof Cauldron.Cauldron === "undefined") {
-        await WPMv2.require({package: "Cauldron", repository: "https://raw.githubusercontent.com/Webstrates/Cauldron/master/cauldron.html"});
+        await WPMv2.require({package: "Cauldron", repository: "cauldron-repos"});
     }
     if(typeof localCauldronEditor === "undefined") {
         window.localCauldronEditor = new Cauldron.Cauldron();
@@ -5049,7 +5049,7 @@ wpm.onAllInstalled(()=>{
     "description": "Launches Cauldron when ?edit is added to the URL of the page, also adds the Popup option to the Views menu",
     "dependencies": [
         "#CauldronLauncher",
-        "https://raw.githubusercontent.com/Webstrates/Codestrates-v2/master/codestrates.html #EventSystem"
+        "codestrates-repos #EventSystem"
     ],
     "assets": [],
     "version": "0.1",

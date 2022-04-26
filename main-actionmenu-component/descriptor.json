@@ -2,7 +2,7 @@
     "friendlyName": "Main Actionbar",
     "description": "Provides a small area for prominent actions",
     "dependencies": [
-        "/webstrate-components-repos/?raw #MenuSystem"
+        "webstrate-components-repos #MenuSystem"
     ],
     "assets": [],
     "version": "0.1",

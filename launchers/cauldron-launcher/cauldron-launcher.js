@@ -21,7 +21,7 @@
 // Create function on window to install Cauldron editor
 window.cauldronEditor = async () => {
     if(typeof Cauldron === "undefined" || typeof Cauldron.Cauldron === "undefined") {
-        await WPMv2.require({package: "Cauldron", repository: "/cauldron-repos/?raw"});
+        await WPMv2.require({package: "Cauldron", repository: "cauldron-repos"});
     }
     if(typeof localCauldronEditor === "undefined") {
         window.localCauldronEditor = new Cauldron.Cauldron();

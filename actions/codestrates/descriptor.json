@@ -2,8 +2,8 @@
     "friendlyName": "Codestrates Actions",
     "description": "Several actions that apply to code fragments",
     "dependencies": [
-        "/webstrate-components-repos/?raw #MenuSystem",
-        "/webstrate-components-repos/?raw #wsc-icon-registry"
+        "webstrate-components-repos #MenuSystem",
+        "webstrate-components-repos #wsc-icon-registry"
     ],
     "assets": [],
     "version": "0.1",

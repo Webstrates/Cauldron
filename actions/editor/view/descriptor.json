@@ -2,7 +2,7 @@
     "friendlyName": "Editor View Actions",
     "description": "Actions that change Cauldron",
     "dependencies": [
-        "/webstrate-components-repos/?raw #MenuSystem"
+        "webstrate-components-repos #MenuSystem"
     ],
     "assets": [],
     "version": "0.1",

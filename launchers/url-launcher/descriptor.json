@@ -3,7 +3,7 @@
     "description": "Launches Cauldron when ?edit is added to the URL of the page, also adds the Popup option to the Views menu",
     "dependencies": [
         "#CauldronLauncher",
-        "/codestrates-repos/?raw #EventSystem"
+        "codestrates-repos #EventSystem"
     ],
     "assets": [],
     "version": "0.1",

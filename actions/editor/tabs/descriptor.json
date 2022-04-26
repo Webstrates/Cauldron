@@ -2,7 +2,7 @@
     "friendlyName": "Editor Tabs Actions",
     "description": "Actions that affect editor tabs",
     "dependencies": [
-        "/webstrate-components-repos/?raw #MenuSystem"
+        "webstrate-components-repos #MenuSystem"
     ],
     "assets": [],
     "version": "0.1",

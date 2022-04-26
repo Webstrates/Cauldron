@@ -2,7 +2,7 @@
     "friendlyName": "Main Menu",
     "description": "Provides the main menu for the editor",
     "dependencies": [
-        "/webstrate-components-repos/?raw #MenuSystem"
+        "webstrate-components-repos #MenuSystem"
     ],
     "assets": [],
     "version": "0.1",

@@ -2,7 +2,7 @@
     "friendlyName": "Documentation Help Menu",
     "description": "Documentation for the help menu",
     "dependencies": [
-        "/webstrate-components-repos/?raw #MenuSystem"
+        "webstrate-components-repos #MenuSystem"
     ],
     "assets": [],
     "version": "0.1",
