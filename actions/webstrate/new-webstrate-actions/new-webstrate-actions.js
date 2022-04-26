@@ -18,7 +18,7 @@
  *  limitations under the License.
 **/
 
-{
+if (typeof webstrate !== "undefined"){
     let newMenu = MenuSystem.MenuManager.createMenu("Cauldron.File.NewWebstrate");
 
     MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
