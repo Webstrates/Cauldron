@@ -626,12 +626,6 @@ class CauldronBase {
 
             //Register TreeBrowser
             await self.registerComponent("TreeBrowser", (state)=>{
-                let bodyNode = new DomTreeGenerator().generateTree(document.querySelector("html > body"));
-                bodyNode.unfold();
-
-                let assetNode = new AssetTreeGenerator().generateTree();
-                assetNode.unfold();
-
                 let rootNode = new TreeNode({
                     context: null,
                     type: "",
@@ -639,8 +633,16 @@ class CauldronBase {
                     alwaysOpen: true
                 });
 
+                let bodyNode = new DomTreeGenerator().generateTree(document.querySelector("html > body"));
+                bodyNode.unfold();
                 rootNode.addNode(bodyNode);
-                rootNode.addNode(assetNode);
+
+                if (typeof webstrates !== "undefined"){
+                    // If we are in a webstrate, also show its assets
+                    let assetNode = new AssetTreeGenerator().generateTree();
+                    assetNode.unfold();
+                    rootNode.addNode(assetNode);
+                }
 
                 EventSystem.triggerEvent("Cauldron.TreeBrowserSpawned", {
                     root: rootNode
