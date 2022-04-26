@@ -39,14 +39,16 @@ if(editorMode != null && editorMode !== false) {
 
 
 //Run when/if Cauldron is initialized
-EventSystem.registerEventCallback("Cauldron.OnInit", ()=>{
-    //Insert Cauldron view menu item
-    MenuSystem.MenuManager.registerMenuItem("Cauldron.View.Dock", {
-        label: "Popout editor",
-        icon: IconRegistry.createIcon("mdc:open_in_new"),        
-        order: 1000, //Order us very low priority, so near the end of the menu
-        onAction: ()=>{
-            window.open(location.href+"?edit");
-        }
+if (typeof webstrate !== "undefined"){
+    EventSystem.registerEventCallback("Cauldron.OnInit", ()=>{
+        //Insert Cauldron view menu item
+        MenuSystem.MenuManager.registerMenuItem("Cauldron.View.Dock", {
+            label: "Popout editor",
+            icon: IconRegistry.createIcon("mdc:open_in_new"),        
+            order: 1000, //Order us very low priority, so near the end of the menu
+            onAction: ()=>{
+                window.open(location.href+"?edit");
+            }
+        });
     });
-});
+}

@@ -307,49 +307,52 @@ class CauldronBase {
             }
         });
 
-        MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
-            label: "Revisions...",
-            group: "FileMeta",
-            groupOrder: 0,
-            icon: IconRegistry.createIcon("mdc:restore"),
-            order: 0,
-            onAction: ()=>{
-                let revisionBrowser = new RevisionBrowser();
+        if (typeof webstrate !== "undefined"){
+            // Only show revisions and permissions if running in webstrate mode
+            MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
+                label: "Revisions...",
+                group: "FileMeta",
+                groupOrder: 0,
+                icon: IconRegistry.createIcon("mdc:restore"),
+                order: 0,
+                onAction: ()=>{
+                    let revisionBrowser = new RevisionBrowser();
 
-                let dialog = new WebstrateComponents.ModalDialog(revisionBrowser.html, {maximize: true});
-                self.docker.getComponentArea().appendChild(dialog.html);
-                dialog.open();
+                    let dialog = new WebstrateComponents.ModalDialog(revisionBrowser.html, {maximize: true});
+                    self.docker.getComponentArea().appendChild(dialog.html);
+                    dialog.open();
 
-                EventSystem.registerEventCallback("RevisionBrowser.OnRestore", (evt)=>{
-                    if(evt.detail === revisionBrowser) {
-                        dialog.close();
-                    }
-                });
+                    EventSystem.registerEventCallback("RevisionBrowser.OnRestore", (evt)=>{
+                        if(evt.detail === revisionBrowser) {
+                            dialog.close();
+                        }
+                    });
 
-            }
-        });
+                }
+            });
 
-        MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
-            label: "Permissions...",
-            group: "FileMeta",
-            groupOrder: 0,
-            icon: IconRegistry.createIcon("mdc:lock_open"),
-            order: 0,
-            onAction: ()=>{
-                let pmui = new WebstrateComponents.PermissionManagerUI();
-                pmui.setTopLevelComponent(self.docker.getComponentArea());
+            MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
+                label: "Permissions...",
+                group: "FileMeta",
+                groupOrder: 0,
+                icon: IconRegistry.createIcon("mdc:lock_open"),
+                order: 0,
+                onAction: ()=>{
+                    let pmui = new WebstrateComponents.PermissionManagerUI();
+                    pmui.setTopLevelComponent(self.docker.getComponentArea());
 
-                let dialog = new WebstrateComponents.ModalDialog(pmui.html);
-                self.docker.getComponentArea().appendChild(dialog.html);
-                dialog.open();
+                    let dialog = new WebstrateComponents.ModalDialog(pmui.html);
+                    self.docker.getComponentArea().appendChild(dialog.html);
+                    dialog.open();
 
-                EventSystem.registerEventCallback("PermissionManagerUI.Saved", (evt)=>{
-                    if(evt.detail === pmui) {
-                        dialog.close();
-                    }
-                });
-            }
-        });    
+                    EventSystem.registerEventCallback("PermissionManagerUI.Saved", (evt)=>{
+                        if(evt.detail === pmui) {
+                            dialog.close();
+                        }
+                    });
+                }
+            });    
+        }
         
         MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
             label: "Packages...",
