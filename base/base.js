@@ -141,7 +141,7 @@ class CauldronBase {
             this.docker.setMode(EdgeDocker.MODE.RIGHT, false);
         }
 
-        EventSystem.triggerEvent("Cauldron.OnOpen", {
+        await EventSystem.triggerEventAsync("Cauldron.OnOpen", {
             cauldron: this
         });
 
