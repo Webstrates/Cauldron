@@ -430,7 +430,7 @@ class Collaboration {
     }
 }
 
-if (typeof webstrates !== "undefined"){
+if (typeof webstrate !== "undefined"){
     // We only support collaboration with a webstrates server backend
     Cauldron.Collaboration = new Collaboration(16);
 

@@ -558,7 +558,7 @@ class CauldronBase {
                 bodyNode.unfold();
                 rootNode.addNode(bodyNode);
 
-                if (typeof webstrates !== "undefined"){
+                if (typeof webstrate !== "undefined"){
                     // If we are in a webstrate, also show its assets
                     let assetNode = new AssetTreeGenerator().generateTree();
                     assetNode.unfold();
