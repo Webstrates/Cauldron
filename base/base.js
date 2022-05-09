@@ -363,7 +363,7 @@ class CauldronBase {
             onAction: ()=>{
                 let packageBrowser = new WPMPackageBrowser(false);
 
-                let dialog = new WebstrateComponents.ModalDialog(packageBrowser.html, {maximize: true});
+                let dialog = new WebstrateComponents.ModalDialog(packageBrowser.html);
                 self.docker.getComponentArea().appendChild(dialog.html);
                 dialog.open();
 
