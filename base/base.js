@@ -364,7 +364,7 @@ class CauldronBase {
                 let packageBrowser = new WPMPackageBrowser(false);
 
                 let dialog = new WebstrateComponents.ModalDialog(packageBrowser.html);
-                self.docker.getComponentArea().appendChild(dialog.html);
+                document.documentElement.appendChild(dialog.html);
                 dialog.open();
 
                 EventSystem.registerEventCallback("WPMPackageBrowser.OnClose", (evt)=>{
