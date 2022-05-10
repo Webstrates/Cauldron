@@ -126,6 +126,15 @@ class CauldronEditor {
 
         if(this.editor != null) {
             this.setupDropZone();
+
+            //Setup settings on editor opened, and settings updated
+            EventSystem.registerEventCallback("Cauldron.Settings.Updated", ({detail: settings}) => {
+                self.editor.setWordwrap(Cauldron.CauldronSettings.getWordwrap());
+            });
+
+            EventSystem.registerEventCallback("Codestrates.Editor.Opened", ({detail: {editor}})=>{
+                editor.setWordwrap(Cauldron.CauldronSettings.getWordwrap());
+            });
         }
     }
 

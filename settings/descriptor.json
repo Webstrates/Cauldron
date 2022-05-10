@@ -1,0 +1,13 @@
+{
+    "friendlyName": "Cauldron Editor Settings",
+    "description": "Settings for cauldron",
+    "dependencies": [
+        "codestrates-repos #EventSystem"
+    ],
+    "assets": [],
+    "version": "0.1",
+    "license": "Apache 2.0",    
+    "changelog": {
+        "0.1": "Initial version"
+    }
+}

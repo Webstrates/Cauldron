@@ -15,9 +15,14 @@
                 <script src="base/descriptor.json" type="descriptor"></script>
                 <script src="base/base.js" type="disabled"></script>
                 <link href="base/scss/main.scss" rel="stylesheet" type="text/css"/>
-            </div>    
-            
-            <!-- Menu structures and actions -->            
+            </div>
+
+            <div class="package" id="CauldronSettings">
+                <script src="settings/descriptor.json" type="descriptor"></script>
+                <script src="settings/settings.js" type="disabled"></script>
+            </div>
+
+            <!-- Menu structures and actions -->
             <div class="package" id="CauldronMainMenu">
                 <script src="main-menubar-component/descriptor.json" type="descriptor"></script>
                 <script src="main-menubar-component/mainmenu.js" type="disabled"></script>
@@ -31,7 +36,12 @@
             <div class="package" id="NewWebstrateActions">
                 <script src="actions/webstrate/new-webstrate-actions/descriptor.json" type="descriptor"></script>
                 <script src="actions/webstrate/new-webstrate-actions/new-webstrate-actions.js" type="disabled"></script>
-            </div>                
+            </div>
+            <div class="package" id="DocumentActions">
+                <script src="actions/webstrate/document-actions/descriptor.json" type="descriptor"></script>
+                <script src="actions/webstrate/document-actions/document-actions.js" type="disabled"></script>
+                <inline src="actions/webstrate/document-actions/templates.html"></inline>
+            </div>
             <div class="package" id="CauldronEditorViewActions">
                 <script src="actions/editor/view/descriptor.json" type="descriptor"></script>
                 <script src="actions/editor/view/cauldron-editor-view-actions.js" type="disabled"></script>

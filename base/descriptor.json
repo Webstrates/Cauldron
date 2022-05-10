@@ -23,6 +23,7 @@
         "#CauldronMainMenu",
         "#CauldronActionMenu",
         "#NewWebstrateActions",
+        "#DocumentActions",
         "#CauldronEditorViewActions",
         "#CauldronEditorTabActions",
         "#CauldronInspector",
@@ -31,7 +32,8 @@
         "#CauldronNamespace",
         "#CauldronEditorCodestratesActions",
         "#CauldronEditorDocumentation",
-        "#CauldronCollaboration"
+        "#CauldronCollaboration",
+        "#CauldronSettings"
     ],
     "assets": [],
     "version": "0.1",

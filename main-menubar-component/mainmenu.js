@@ -36,7 +36,19 @@ window.CauldronMainMenu = class MainMenu {
             submenu: fileMenu,
             submenuOnHover: false
         });
-                
+
+        // Register the basic submenus etc. that are always there
+        let settingsMenu = MenuSystem.MenuManager.createMenu("Cauldron.Settings", {
+            groupDividers: true,
+            growDirection: MenuSystem.Menu.GrowDirection.DOWN
+        });
+        this.menu.addItem({
+            label: "Settings",
+            order: 100,
+            submenu: settingsMenu,
+            submenuOnHover: false
+        });
+
         let viewMenu = MenuSystem.MenuManager.createMenu("Cauldron.View", {
             groupDividers: true,
             growDirection: MenuSystem.Menu.GrowDirection.DOWN
