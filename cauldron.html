@@ -54,6 +54,7 @@ window.Cauldron = {};
         "webstrate-components-repos #RevisionBrowser",
         "webstrate-components-repos #PermissionManager",
         "webstrate-components-repos #WPMPackageBrowser",
+        "webstrate-components-repos #HeadEditorComponent",
         "webstrate-components-repos #ModalDialog",
         "codestrates-repos #editor_monaco",
         "#CauldronMainMenu",
@@ -419,7 +420,7 @@ class CauldronBase {
                 label: "Permissions...",
                 group: "FileMeta",
                 groupOrder: 0,
-                icon: IconRegistry.createIcon("mdc:lock_open"),
+                icon: IconRegistry.createIcon("mdc:admin_panel_settings"),
                 order: 0,
                 onAction: ()=>{
                     let pmui = new WebstrateComponents.PermissionManagerUI();
@@ -437,6 +438,26 @@ class CauldronBase {
                 }
             });    
         }
+        
+        MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
+            label: "Properties...",
+            group: "FileMeta",
+            groupOrder: 0,
+            icon: IconRegistry.createIcon("mdc:build_circle"),
+            order: 0,
+            onAction: ()=>{
+                let headEditor = new HeadEditorComponent(false);
+                let dialog = new WebstrateComponents.ModalDialog(headEditor.html);
+                document.documentElement.appendChild(dialog.html);
+                dialog.open();
+
+                EventSystem.registerEventCallback("HeadEditorComponent.OnClose", (evt)=>{
+                    if(evt.detail === headEditor) {
+                        dialog.close();
+                    }
+                });
+            }
+        });           
         
         MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
             label: "Packages...",
@@ -2015,7 +2036,7 @@ if (typeof webstrate !== "undefined"){
 
     MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
         label: "New...",
-        group: "FileCreate",
+        group: "FileDirect",
         groupOrder: -1,
         order: -1,
         icon: IconRegistry.createIcon("mdc:note_add"),
@@ -2033,9 +2054,10 @@ if (typeof webstrate !== "undefined"){
         }
     });
 
-    // New empty webstrate
+    // Download as archive
     MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
         label: "Download",
+        group: "FileDirect",
         icon: IconRegistry.createIcon("mdc:archive"),                
         onAction: ()=>{
             EventSystem.triggerEvent("Cauldron.Webstrate.Download");

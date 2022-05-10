@@ -18,6 +18,7 @@
         "webstrate-components-repos #RevisionBrowser",
         "webstrate-components-repos #PermissionManager",
         "webstrate-components-repos #WPMPackageBrowser",
+        "webstrate-components-repos #HeadEditorComponent",
         "webstrate-components-repos #ModalDialog",
         "codestrates-repos #editor_monaco",
         "#CauldronMainMenu",

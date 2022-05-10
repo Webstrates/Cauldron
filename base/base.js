@@ -335,7 +335,7 @@ class CauldronBase {
                 label: "Permissions...",
                 group: "FileMeta",
                 groupOrder: 0,
-                icon: IconRegistry.createIcon("mdc:lock_open"),
+                icon: IconRegistry.createIcon("mdc:admin_panel_settings"),
                 order: 0,
                 onAction: ()=>{
                     let pmui = new WebstrateComponents.PermissionManagerUI();
@@ -353,6 +353,26 @@ class CauldronBase {
                 }
             });    
         }
+        
+        MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
+            label: "Properties...",
+            group: "FileMeta",
+            groupOrder: 0,
+            icon: IconRegistry.createIcon("mdc:build_circle"),
+            order: 0,
+            onAction: ()=>{
+                let headEditor = new HeadEditorComponent(false);
+                let dialog = new WebstrateComponents.ModalDialog(headEditor.html);
+                document.documentElement.appendChild(dialog.html);
+                dialog.open();
+
+                EventSystem.registerEventCallback("HeadEditorComponent.OnClose", (evt)=>{
+                    if(evt.detail === headEditor) {
+                        dialog.close();
+                    }
+                });
+            }
+        });           
         
         MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
             label: "Packages...",

@@ -23,7 +23,7 @@ if (typeof webstrate !== "undefined"){
 
     MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
         label: "New...",
-        group: "FileCreate",
+        group: "FileDirect",
         groupOrder: -1,
         order: -1,
         icon: IconRegistry.createIcon("mdc:note_add"),
@@ -41,9 +41,10 @@ if (typeof webstrate !== "undefined"){
         }
     });
 
-    // New empty webstrate
+    // Download as archive
     MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
         label: "Download",
+        group: "FileDirect",
         icon: IconRegistry.createIcon("mdc:archive"),                
         onAction: ()=>{
             EventSystem.triggerEvent("Cauldron.Webstrate.Download");
