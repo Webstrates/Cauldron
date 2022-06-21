@@ -116,6 +116,28 @@
         order: 0,
         submenu: dockMenu
     });
+    
+    let themeMenu = MenuSystem.MenuManager.createMenu("Cauldron.View.Theme");
+    MenuSystem.MenuManager.registerMenuItem("Cauldron.View", {
+        label: "Theme...",
+        group: "LayoutCommands",
+        groupOrder:0,
+        icon: IconRegistry.createIcon("mdc:brush"),                        
+        order: 0,
+        submenu: themeMenu
+    });
+    
+    ["Normal", "Dark"].forEach((theme)=>{
+        MenuSystem.MenuManager.registerMenuItem("Cauldron.View.Theme",{
+            label: theme,
+            order: 0,
+            onAction: ()=>{
+                EventSystem.triggerEvent("Cauldron.Theme", {
+                    theme: theme.toLowerCase()
+                });
+            }
+        });       
+    });
 
     MenuSystem.MenuManager.registerMenuItem("Cauldron.View", {
         label: "Reset layout",
@@ -124,7 +146,7 @@
         
         
         icon: IconRegistry.createIcon("mdc:settings_backup_restore"),
-        order: -1,
+        order: 1,
         onAction:()=>{
             EventSystem.triggerEvent("Cauldron.ResetLayout");
         }

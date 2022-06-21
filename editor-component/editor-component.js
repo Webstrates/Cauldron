@@ -40,7 +40,11 @@ class CauldronEditor {
         this.html.classList.add("cauldron-editor-component");
 
         /** @member {Editors.Editor} - The codestrates editor of this CauldronEditor */
-        this.editor = EditorManager.createEditor(fragment, {editor: this.options.editorClass, theme: "light", mode: "component"})[0];
+        this.editor = EditorManager.createEditor(fragment, {
+            editor: this.options.editorClass, 
+            theme: "light", /* TODO: Set this from the current theme */
+            mode: "component"
+        })[0];
 
         this.toolbar = document.createElement("div");
         this.toolbar.classList.add("cauldron-editor-component-toolbar");
@@ -124,6 +128,14 @@ class CauldronEditor {
             }
         }));
 
+        // Handle live theme updates
+        this.eventDeleters.push(EventSystem.registerEventCallback("Cauldron.Theme", (event)=>{
+            if(self.editor !== null && event.detail.theme !== null) {
+                self.editor.setTheme(event.detail.theme);
+            }
+        }));
+
+
         if(this.editor != null) {
             this.setupDropZone();
 
@@ -159,7 +171,7 @@ class CauldronEditor {
             this.editor.onSizeChanged();
         }
     }
-
+    
     get title() {
         let content = "";
         let name = this.fragment.html[0].getAttribute("name");

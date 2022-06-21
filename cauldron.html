@@ -162,6 +162,7 @@ class CauldronBase {
         this.docker = new EdgeDocker({
             mode: this.config.edgeDockerMode
         });
+        this.docker.getComponentArea().classList.add("cauldron-themeable");
 
         //Setup container divs
         this.editorContentArea = document.createElement("div");
@@ -296,6 +297,14 @@ class CauldronBase {
         EventSystem.registerEventCallback("Cauldron.Dock", ({detail:{pos: pos}})=>{
             self.docker.setMode(pos);
         });
+        
+        EventSystem.registerEventCallback("Cauldron.Theme", ({detail:{theme: theme}})=>{
+            if (theme){
+                self.docker.getComponentArea().setAttribute("cauldron-theme", theme);
+                
+                // TODO: Store+restore this next boot
+            }
+        });        
 
         EventSystem.registerEventCallback("TreeBrowser.TreeNode.Action", ({detail:{node: node, treeBrowser: treeBrowser}})=>{
             if(node.type === "DomTreeNode" && node.context != null && node.context.matches("code-fragment")) {
@@ -447,8 +456,13 @@ class CauldronBase {
             order: 0,
             onAction: ()=>{
                 let headEditor = new HeadEditorComponent(false);
-                let dialog = new WebstrateComponents.ModalDialog(headEditor.html);
-                document.documentElement.appendChild(dialog.html);
+                let dialog = new WebstrateComponents.ModalDialog(headEditor.html, {
+                    title: "File Properties",
+                    actions: {
+                        "Close":{primary:true}
+                    }
+                });
+                self.docker.getComponentArea().appendChild(dialog.html);
                 dialog.open();
 
                 EventSystem.registerEventCallback("HeadEditorComponent.OnClose", (evt)=>{
@@ -467,9 +481,10 @@ class CauldronBase {
             order: 0,
             onAction: ()=>{
                 let packageBrowser = new WPMPackageBrowser(false);
+                packageBrowser.setTopLevelComponent(self.docker.getComponentArea());
 
                 let dialog = new WebstrateComponents.ModalDialog(packageBrowser.html);
-                document.documentElement.appendChild(dialog.html);
+                self.docker.getComponentArea().appendChild(dialog.html);
                 dialog.open();
 
                 EventSystem.registerEventCallback("WPMPackageBrowser.OnClose", (evt)=>{
@@ -1644,14 +1659,9 @@ window.Cauldron.Cauldron = CauldronBase;
         animation: 0.25s cauldron-logo-appears ease-in; }
 
 /** Material STUBS **/
-.cauldron-base-content {
-  --mdc-theme-primary: #3741bc; }
-
-.cauldron-base-content .cauldron-editor-component-toolbar .mdc-list-item__graphic {
-  margin-right: 0; }
-
-/** Size resets */
-.docking-area-component {
+.cauldron-themeable {
+  /** Size resets */
+  --mdc-theme-primary: #3741bc;
   --mdc-typography-subtitle1-font-size: 11pt;
   --mdc-typography-subtitle1-line-height: 1.5em;
   --mdc-typography-subtitle2-font-size: 0.875em;
@@ -1661,9 +1671,60 @@ window.Cauldron.Cauldron = CauldronBase;
   --mdc-typography-body2-font-size: 0.875em;
   --mdc-typography-headline6-font-size: 1.25em;
   --mdc-typography-button-font-size: 0.875em;
-  font-size: 10pt; }
-  .docking-area-component .mdc-list {
+  font-size: 10pt;
+  /** Mixin fixes for mixins that drop live customizability **/ }
+  .cauldron-themeable .mdc-list {
     line-height: var(--mdc-typography-subtitle1-line-height, 1.5em); }
+  .cauldron-themeable .mdc-menu .mdc-list, .cauldron-themeable .mdc-dialog .mdc-dialog__content, .cauldron-themeable .mdc-menu .mdc-list-item__graphic, .cauldron-themeable .mdc-data-table__header-cell, .cauldron-themeable .mdc-menu .mdc-list-item__meta,
+  .cauldron-themeable .mdc-data-table__pagination-total, .cauldron-themeable .mdc-data-table__pagination-rows-per-page-label, .cauldron-themeable .mdc-data-table__cell,
+  .cauldron-themeable .mdc-tab:not(.mdc-tab--active) .mdc-tab__icon, .cauldron-themeable .mdc-tab:not(.mdc-tab--active) .mdc-tab__text-label,
+  .cauldron-themeable .mdc-dialog .mdc-dialog__title {
+    color: var(--mdc-theme-text-primary-on-background); }
+  .cauldron-themeable .mdc-radio .mdc-radio__native-control:enabled:not(:checked) + .mdc-radio__background .mdc-radio__outer-circle {
+    border-color: var(--mdc-theme-text-secondary-on-background); }
+  .cauldron-themeable .mdc-text-field:not(.mdc-text-field--disabled) + .mdc-text-field-helper-line .mdc-text-field-helper-text {
+    color: var(--mdc-theme-secondary); }
+  .cauldron-themeable .cauldron-editor-component-toolbar .mdc-list-item__graphic {
+    margin-right: 0; }
+</style>
+
+                <style id="theme_dark-style">
+.cauldron-themeable[cauldron-theme="dark"] {
+  --mdc-theme-primary: #3ea2ff;
+  --mdc-theme-secondary: #0fa5ff;
+  --mdc-theme-background: rgb(24, 24, 24);
+  --mdc-theme-surface: rgb(38, 40, 56);
+  --mdc-theme-error: #b00020;
+  --mdc-theme-on-primary: #fff;
+  --mdc-theme-on-secondary: #fff;
+  --mdc-theme-on-surface: rgb(230, 234, 255);
+  --mdc-theme-on-error: #fff;
+  --mdc-theme-text-primary-on-background: rgba(255, 255, 255, 0.973);
+  --mdc-theme-text-secondary-on-background: rgba(106, 197, 255, 0.54);
+  --mdc-theme-text-hint-on-background: rgba(0, 0, 0, 0.38);
+  --mdc-theme-text-disabled-on-background: rgba(0, 0, 0, 0.38);
+  --mdc-theme-text-icon-on-background: rgba(218, 234, 255, 0.61);
+  --mdc-theme-text-primary-on-light: rgba(0, 0, 0, 0.87);
+  --mdc-theme-text-secondary-on-light: rgba(0, 0, 0, 0.54);
+  --mdc-theme-text-hint-on-light: rgba(0, 0, 0, 0.38);
+  --mdc-theme-text-disabled-on-light: rgba(0, 0, 0, 0.38);
+  --mdc-theme-text-icon-on-light: rgba(0, 0, 0, 0.38);
+  --mdc-theme-text-primary-on-dark: white;
+  --mdc-theme-text-secondary-on-dark: rgba(255, 255, 255, 0.7);
+  --mdc-theme-text-hint-on-dark: rgba(255, 255, 255, 0.5);
+  --mdc-theme-text-disabled-on-dark: rgba(255, 255, 255, 0.5);
+  --mdc-theme-text-icon-on-dark: rgba(255, 255, 255, 0.5);
+  /** Menu highlights **/
+  /** Golden layout **/ }
+  .cauldron-themeable[cauldron-theme="dark"] :not(.mdc-list-item--disabled).mdc-list-item .mdc-list-item__ripple::before,
+  .cauldron-themeable[cauldron-theme="dark"] :not(.mdc-list-item--disabled).mdc-list-item .mdc-list-item__ripple::after {
+    background-color: #fff; }
+  .cauldron-themeable[cauldron-theme="dark"] .cauldron-layout .lm_items:empty::after,
+  .cauldron-themeable[cauldron-theme="dark"] .lm_header .lm_tab .lm_close_tab,
+  .cauldron-themeable[cauldron-theme="dark"] .lm_controls {
+    filter: invert(1); }
+  .cauldron-themeable[cauldron-theme="dark"] .lm_content {
+    border-color: #3c4347; }
 </style>
 
             </div>
@@ -2412,6 +2473,28 @@ EventSystem.registerEventCallback("Document.Edit.Title", ()=>{
         order: 0,
         submenu: dockMenu
     });
+    
+    let themeMenu = MenuSystem.MenuManager.createMenu("Cauldron.View.Theme");
+    MenuSystem.MenuManager.registerMenuItem("Cauldron.View", {
+        label: "Theme...",
+        group: "LayoutCommands",
+        groupOrder:0,
+        icon: IconRegistry.createIcon("mdc:brush"),                        
+        order: 0,
+        submenu: themeMenu
+    });
+    
+    ["Normal", "Dark"].forEach((theme)=>{
+        MenuSystem.MenuManager.registerMenuItem("Cauldron.View.Theme",{
+            label: theme,
+            order: 0,
+            onAction: ()=>{
+                EventSystem.triggerEvent("Cauldron.Theme", {
+                    theme: theme.toLowerCase()
+                });
+            }
+        });       
+    });
 
     MenuSystem.MenuManager.registerMenuItem("Cauldron.View", {
         label: "Reset layout",
@@ -2420,7 +2503,7 @@ EventSystem.registerEventCallback("Document.Edit.Title", ()=>{
         
         
         icon: IconRegistry.createIcon("mdc:settings_backup_restore"),
-        order: -1,
+        order: 1,
         onAction:()=>{
             EventSystem.triggerEvent("Cauldron.ResetLayout");
         }
@@ -4250,7 +4333,8 @@ window.Cauldron.InspectorAssetPreviewElement = InspectorAssetPreviewElement;
         border: 0;
         border-bottom: 1px solid rgba(100, 100, 100, 0.15);
         min-width: 2em;
-        width: 95%; }
+        width: 95%;
+        color: var(--mdc-theme-primary-on-background); }
       .cauldron-inspector .cauldron-inspector-fields .cauldron-inspector-element .cauldron-inspector-element-asset-preview {
         grid-column: 1/-1;
         height: 5em;
@@ -4332,7 +4416,11 @@ class CauldronEditor {
         this.html.classList.add("cauldron-editor-component");
 
         /** @member {Editors.Editor} - The codestrates editor of this CauldronEditor */
-        this.editor = EditorManager.createEditor(fragment, {editor: this.options.editorClass, theme: "light", mode: "component"})[0];
+        this.editor = EditorManager.createEditor(fragment, {
+            editor: this.options.editorClass, 
+            theme: "light", /* TODO: Set this from the current theme */
+            mode: "component"
+        })[0];
 
         this.toolbar = document.createElement("div");
         this.toolbar.classList.add("cauldron-editor-component-toolbar");
@@ -4416,6 +4504,14 @@ class CauldronEditor {
             }
         }));
 
+        // Handle live theme updates
+        this.eventDeleters.push(EventSystem.registerEventCallback("Cauldron.Theme", (event)=>{
+            if(self.editor !== null && event.detail.theme !== null) {
+                self.editor.setTheme(event.detail.theme);
+            }
+        }));
+
+
         if(this.editor != null) {
             this.setupDropZone();
 
@@ -4451,7 +4547,7 @@ class CauldronEditor {
             this.editor.onSizeChanged();
         }
     }
-
+    
     get title() {
         let content = "";
         let name = this.fragment.html[0].getAttribute("name");
@@ -4666,7 +4762,7 @@ window.Cauldron.CauldronEditor = CauldronEditor;
   display: flex;
   flex-direction: column; }
   .cauldron-editor-component .cauldron-editor-component-toolbar {
-    background: rgba(255, 255, 255, 0.6);
+    background: var(--mdc-theme-surface, rgba(255, 255, 255, 0.6));
     border-bottom: 1px solid #8a8a8a40;
     display: flex;
     justify-content: flex-end;

@@ -77,6 +77,7 @@ class CauldronBase {
         this.docker = new EdgeDocker({
             mode: this.config.edgeDockerMode
         });
+        this.docker.getComponentArea().classList.add("cauldron-themeable");
 
         //Setup container divs
         this.editorContentArea = document.createElement("div");
@@ -211,6 +212,14 @@ class CauldronBase {
         EventSystem.registerEventCallback("Cauldron.Dock", ({detail:{pos: pos}})=>{
             self.docker.setMode(pos);
         });
+        
+        EventSystem.registerEventCallback("Cauldron.Theme", ({detail:{theme: theme}})=>{
+            if (theme){
+                self.docker.getComponentArea().setAttribute("cauldron-theme", theme);
+                
+                // TODO: Store+restore this next boot
+            }
+        });        
 
         EventSystem.registerEventCallback("TreeBrowser.TreeNode.Action", ({detail:{node: node, treeBrowser: treeBrowser}})=>{
             if(node.type === "DomTreeNode" && node.context != null && node.context.matches("code-fragment")) {
@@ -362,8 +371,13 @@ class CauldronBase {
             order: 0,
             onAction: ()=>{
                 let headEditor = new HeadEditorComponent(false);
-                let dialog = new WebstrateComponents.ModalDialog(headEditor.html);
-                document.documentElement.appendChild(dialog.html);
+                let dialog = new WebstrateComponents.ModalDialog(headEditor.html, {
+                    title: "File Properties",
+                    actions: {
+                        "Close":{primary:true}
+                    }
+                });
+                self.docker.getComponentArea().appendChild(dialog.html);
                 dialog.open();
 
                 EventSystem.registerEventCallback("HeadEditorComponent.OnClose", (evt)=>{
@@ -382,9 +396,10 @@ class CauldronBase {
             order: 0,
             onAction: ()=>{
                 let packageBrowser = new WPMPackageBrowser(false);
+                packageBrowser.setTopLevelComponent(self.docker.getComponentArea());
 
                 let dialog = new WebstrateComponents.ModalDialog(packageBrowser.html);
-                document.documentElement.appendChild(dialog.html);
+                self.docker.getComponentArea().appendChild(dialog.html);
                 dialog.open();
 
                 EventSystem.registerEventCallback("WPMPackageBrowser.OnClose", (evt)=>{

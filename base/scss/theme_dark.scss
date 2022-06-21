@@ -1,0 +1,42 @@
+.cauldron-themeable[cauldron-theme="dark"] {
+    --mdc-theme-primary: #3ea2ff;
+    --mdc-theme-secondary: #0fa5ff;
+    --mdc-theme-background: rgb(24, 24, 24);
+    --mdc-theme-surface: rgb(38, 40, 56);
+    --mdc-theme-error: #b00020;
+    --mdc-theme-on-primary: #fff;
+    --mdc-theme-on-secondary: #fff;
+    --mdc-theme-on-surface: rgb(230, 234, 255);
+    --mdc-theme-on-error: #fff;
+    --mdc-theme-text-primary-on-background: rgba(255, 255, 255, 0.973);
+    --mdc-theme-text-secondary-on-background: rgba(106, 197, 255, 0.54);
+    --mdc-theme-text-hint-on-background: rgba(0, 0, 0, 0.38);
+    --mdc-theme-text-disabled-on-background: rgba(0, 0, 0, 0.38);
+    --mdc-theme-text-icon-on-background: rgba(218, 234, 255, 0.61);
+    --mdc-theme-text-primary-on-light: rgba(0, 0, 0, 0.87);
+    --mdc-theme-text-secondary-on-light: rgba(0, 0, 0, 0.54);
+    --mdc-theme-text-hint-on-light: rgba(0, 0, 0, 0.38);
+    --mdc-theme-text-disabled-on-light: rgba(0, 0, 0, 0.38);
+    --mdc-theme-text-icon-on-light: rgba(0, 0, 0, 0.38);
+    --mdc-theme-text-primary-on-dark: white;
+    --mdc-theme-text-secondary-on-dark: rgba(255, 255, 255, 0.7);
+    --mdc-theme-text-hint-on-dark: rgba(255, 255, 255, 0.5);
+    --mdc-theme-text-disabled-on-dark: rgba(255, 255, 255, 0.5);
+    --mdc-theme-text-icon-on-dark: rgba(255, 255, 255, 0.5);        
+        
+    /** Menu highlights **/
+    :not(.mdc-list-item--disabled).mdc-list-item .mdc-list-item__ripple::before, 
+    :not(.mdc-list-item--disabled).mdc-list-item .mdc-list-item__ripple::after {
+        background-color: #fff;
+    }
+    
+    /** Golden layout **/
+    .cauldron-layout .lm_items:empty::after, 
+    .lm_header .lm_tab .lm_close_tab,
+    .lm_controls {
+        filter: invert(1);
+    }
+    .lm_content {
+        border-color: #3c4347;
+    }    
+}

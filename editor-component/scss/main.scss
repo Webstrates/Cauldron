@@ -24,7 +24,7 @@
     flex-direction: column;
 
     .cauldron-editor-component-toolbar {
-        background: rgba(255, 255, 255, 0.6);
+        background: var(--mdc-theme-surface, rgba(255, 255, 255, 0.6));
         border-bottom: 1px solid #8a8a8a40;
         display: flex;
         justify-content: flex-end;

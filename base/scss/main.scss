@@ -121,17 +121,9 @@
 
 
 /** Material STUBS **/
-.cauldron-base-content {
+.cauldron-themeable {
+    /** Size resets */
     --mdc-theme-primary: #3741bc;
-}
-.cauldron-base-content .cauldron-editor-component-toolbar {   
-    .mdc-list-item__graphic {
-        margin-right: 0;
-    }
-}
-
-/** Size resets */
-.docking-area-component {
     --mdc-typography-subtitle1-font-size: 11pt;
     --mdc-typography-subtitle1-line-height: 1.5em;
     --mdc-typography-subtitle2-font-size: 0.875em;
@@ -140,11 +132,30 @@
     --mdc-typography-body1-font-size: 1em;
     --mdc-typography-body2-font-size: 0.875em;
     --mdc-typography-headline6-font-size: 1.25em;
-    --mdc-typography-button-font-size: 0.875em;
-    
+    --mdc-typography-button-font-size: 0.875em;    
     font-size: 10pt;
-    
     .mdc-list {
         line-height: var(--mdc-typography-subtitle1-line-height, 1.5em);
     }
+    
+    /** Mixin fixes for mixins that drop live customizability **/
+    .mdc-menu .mdc-list, .mdc-dialog .mdc-dialog__content, .mdc-menu .mdc-list-item__graphic, .mdc-data-table__header-cell, .mdc-menu .mdc-list-item__meta,
+    .mdc-data-table__pagination-total, .mdc-data-table__pagination-rows-per-page-label, .mdc-data-table__cell,
+    .mdc-tab:not(.mdc-tab--active) .mdc-tab__icon, .mdc-tab:not(.mdc-tab--active) .mdc-tab__text-label,
+    .mdc-dialog .mdc-dialog__title {
+        color: var(--mdc-theme-text-primary-on-background);
+    }        
+    .mdc-radio .mdc-radio__native-control:enabled:not(:checked) + .mdc-radio__background .mdc-radio__outer-circle {
+        border-color: var(--mdc-theme-text-secondary-on-background);
+    }
+    
+    .mdc-text-field:not(.mdc-text-field--disabled) + .mdc-text-field-helper-line .mdc-text-field-helper-text {
+        color: var(--mdc-theme-secondary);
+    }    
+
+    .cauldron-editor-component-toolbar {   
+        .mdc-list-item__graphic {
+            margin-right: 0;
+        }
+    }    
 }
