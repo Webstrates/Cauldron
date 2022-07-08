@@ -33,18 +33,10 @@
         label: "Word-wrap",
         icon: IconRegistry.createIcon("mdc:wrap_text"),
         order: 0,
-        class: Cauldron.CauldronSettings.getWordwrap()?"MenuSystem_MenuItem_Active":null,
+        checked: ()=>Cauldron.CauldronSettings.getWordwrap(),
         onAction: (menuItem)=>{
             //Toggle word wrap in all open and future editors
-            let active = !Cauldron.CauldronSettings.getWordwrap();
-
-            if(active) {
-                menuItem.html.classList.add("MenuSystem_MenuItem_Active");
-            } else {
-                menuItem.html.classList.remove("MenuSystem_MenuItem_Active");
-            }
-
-            Cauldron.CauldronSettings.setWordwrap(active);
+            Cauldron.CauldronSettings.setWordwrap(!Cauldron.CauldronSettings.getWordwrap());
         }
     });
 
@@ -131,6 +123,7 @@
         MenuSystem.MenuManager.registerMenuItem("Cauldron.View.Theme",{
             label: theme,
             order: 0,
+            checked: ()=>Cauldron.CauldronSettings.getTheme()===theme.toLowerCase(),
             onAction: ()=>{
                 Cauldron.CauldronSettings.setTheme(theme.toLowerCase());
                 EventSystem.triggerEvent("Cauldron.Theme", {

@@ -42,7 +42,7 @@ class CauldronSettings {
     
     static getTheme(){
         // Try to detect the browser default theme if not set
-        let defaultTheme = "normal";
+        let defaultTheme = "light";
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             defaultTheme = "dark";
         }
