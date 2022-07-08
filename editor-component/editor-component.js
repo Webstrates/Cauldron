@@ -42,7 +42,7 @@ class CauldronEditor {
         /** @member {Editors.Editor} - The codestrates editor of this CauldronEditor */
         this.editor = EditorManager.createEditor(fragment, {
             editor: this.options.editorClass, 
-            theme: "light", /* TODO: Set this from the current theme */
+            theme: Cauldron.CauldronSettings.getTheme(),
             mode: "component"
         })[0];
 

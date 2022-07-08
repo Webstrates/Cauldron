@@ -78,6 +78,7 @@ class CauldronBase {
             mode: this.config.edgeDockerMode
         });
         this.docker.getComponentArea().classList.add("cauldron-themeable");
+        this.docker.getComponentArea().setAttribute("cauldron-theme", Cauldron.CauldronSettings.getTheme());
 
         //Setup container divs
         this.editorContentArea = document.createElement("div");
@@ -216,8 +217,6 @@ class CauldronBase {
         EventSystem.registerEventCallback("Cauldron.Theme", ({detail:{theme: theme}})=>{
             if (theme){
                 self.docker.getComponentArea().setAttribute("cauldron-theme", theme);
-                
-                // TODO: Store+restore this next boot
             }
         });        
 

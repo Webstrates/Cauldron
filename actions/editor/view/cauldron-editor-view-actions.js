@@ -127,11 +127,12 @@
         submenu: themeMenu
     });
     
-    ["Normal", "Dark"].forEach((theme)=>{
+    ["Light", "Dark"].forEach((theme)=>{
         MenuSystem.MenuManager.registerMenuItem("Cauldron.View.Theme",{
             label: theme,
             order: 0,
             onAction: ()=>{
+                Cauldron.CauldronSettings.setTheme(theme.toLowerCase());
                 EventSystem.triggerEvent("Cauldron.Theme", {
                     theme: theme.toLowerCase()
                 });

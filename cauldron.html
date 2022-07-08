@@ -163,6 +163,7 @@ class CauldronBase {
             mode: this.config.edgeDockerMode
         });
         this.docker.getComponentArea().classList.add("cauldron-themeable");
+        this.docker.getComponentArea().setAttribute("cauldron-theme", Cauldron.CauldronSettings.getTheme());
 
         //Setup container divs
         this.editorContentArea = document.createElement("div");
@@ -301,8 +302,6 @@ class CauldronBase {
         EventSystem.registerEventCallback("Cauldron.Theme", ({detail:{theme: theme}})=>{
             if (theme){
                 self.docker.getComponentArea().setAttribute("cauldron-theme", theme);
-                
-                // TODO: Store+restore this next boot
             }
         });        
 
@@ -1784,6 +1783,21 @@ class CauldronSettings {
     static getWordwrap() {
         return CauldronSettings.getSetting(CauldronSettings.SETTINGS.wordWrap, false);
     }
+    
+    
+    static setTheme(theme) {
+        CauldronSettings.setSetting(CauldronSettings.SETTINGS.theme, theme);
+    }    
+    
+    static getTheme(){
+        // Try to detect the browser default theme if not set
+        let defaultTheme = "normal";
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            defaultTheme = "dark";
+        }
+        
+        return CauldronSettings.getSetting(CauldronSettings.SETTINGS.theme, defaultTheme);        
+    }
 
     /**
      *
@@ -1846,7 +1860,8 @@ class CauldronSettings {
 window.Cauldron.CauldronSettings = CauldronSettings;
 
 CauldronSettings.SETTINGS = {
-    "wordWrap": "wordWrap"
+    "wordWrap": "wordWrap",
+    "theme" : "theme"
 };
 
 CauldronSettings.STORAGE_KEY = "Cauldron.Settings.Key";
@@ -2484,11 +2499,12 @@ EventSystem.registerEventCallback("Document.Edit.Title", ()=>{
         submenu: themeMenu
     });
     
-    ["Normal", "Dark"].forEach((theme)=>{
+    ["Light", "Dark"].forEach((theme)=>{
         MenuSystem.MenuManager.registerMenuItem("Cauldron.View.Theme",{
             label: theme,
             order: 0,
             onAction: ()=>{
+                Cauldron.CauldronSettings.setTheme(theme.toLowerCase());
                 EventSystem.triggerEvent("Cauldron.Theme", {
                     theme: theme.toLowerCase()
                 });
@@ -4418,7 +4434,7 @@ class CauldronEditor {
         /** @member {Editors.Editor} - The codestrates editor of this CauldronEditor */
         this.editor = EditorManager.createEditor(fragment, {
             editor: this.options.editorClass, 
-            theme: "light", /* TODO: Set this from the current theme */
+            theme: Cauldron.CauldronSettings.getTheme(),
             mode: "component"
         })[0];
 

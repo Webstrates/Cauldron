@@ -34,6 +34,21 @@ class CauldronSettings {
     static getWordwrap() {
         return CauldronSettings.getSetting(CauldronSettings.SETTINGS.wordWrap, false);
     }
+    
+    
+    static setTheme(theme) {
+        CauldronSettings.setSetting(CauldronSettings.SETTINGS.theme, theme);
+    }    
+    
+    static getTheme(){
+        // Try to detect the browser default theme if not set
+        let defaultTheme = "normal";
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            defaultTheme = "dark";
+        }
+        
+        return CauldronSettings.getSetting(CauldronSettings.SETTINGS.theme, defaultTheme);        
+    }
 
     /**
      *
@@ -96,7 +111,8 @@ class CauldronSettings {
 window.Cauldron.CauldronSettings = CauldronSettings;
 
 CauldronSettings.SETTINGS = {
-    "wordWrap": "wordWrap"
+    "wordWrap": "wordWrap",
+    "theme" : "theme"
 };
 
 CauldronSettings.STORAGE_KEY = "Cauldron.Settings.Key";
