@@ -39,7 +39,7 @@
         label: "Codestrates",
         icon: IconRegistry.createIcon("webstrates:codestrates"),
         onAction: () => {
-            window.open("https://codestrates.projects.cavi.au.dk/codestrates/");
+            window.open("https://codestrates.projects.cavi.au.dk/api/codestrates/");
         }
     });
 
@@ -47,7 +47,7 @@
         label: "Cauldron",
         icon: IconRegistry.createIcon("webstrates:cauldron"),
         onAction: () => {
-            window.open("https://codestrates.projects.cavi.au.dk/cauldron/");
+            window.open("https://codestrates.projects.cavi.au.dk/api/cauldron/");
         }
     });
 
