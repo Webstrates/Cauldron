@@ -73,8 +73,10 @@ MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
     groupOrder: 200,
     order: 200,
     onOpen: (menu)=>{
-        if(menu.context.type == "DomTreeNode" && menu.context.context.matches("code-fragment") && !Fragment.one(menu.context.context).auto) {
-            return true;
+        if(menu.context.type == "DomTreeNode" && menu.context.context.matches("code-fragment")) {
+            let fragment = Fragment.one(menu.context.context);
+
+            return fragment.supportsAuto() && !fragment.auto;
         }
     },
     onAction: (menuItem)=>{
@@ -91,8 +93,10 @@ MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
     groupOrder: 200,
     order: 200,
     onOpen: (menu)=>{
-        if(menu.context.type == "DomTreeNode" && menu.context.context.matches("code-fragment") && Fragment.one(menu.context.context).auto) {
-            return true;
+        if(menu.context.type == "DomTreeNode" && menu.context.context.matches("code-fragment")) {
+            let fragment = Fragment.one(menu.context.context);
+
+            return fragment.supportsAuto() && fragment.auto;
         }
     },
     onAction: (menuItem)=>{
@@ -109,17 +113,25 @@ MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
     groupOrder: 9000,
     order: 205,
     onOpen: (menu)=>{
-        if(menu.context.type == "DomTreeNode" && menu.context.context.querySelector("code-fragment:not([auto])") != null) {
-            return true;
+        if(menu.context.type == "DomTreeNode") {
+            let childFragments = Fragment.find(menu.context.context.querySelectorAll("code-fragment"));
+
+            let autoFragment = childFragments.find((fragment)=>{
+                return fragment.supportsAuto() && !fragment.auto;
+            });
+
+            return autoFragment != null;
         }
     },
     onAction: (menuItem)=>{
         let fragments = menuItem.menu.context.context.querySelectorAll("code-fragment");
-        console.log("Enable auto on all", fragments);
         fragments.forEach((fragmentHtml)=>{
-            EventSystem.triggerEvent("Codestrates.Fragment.AutoOn", {
-                fragment: Fragment.one(fragmentHtml)
-            });
+            let fragment = Fragment.one(fragmentHtml);
+            if(fragment.supportsAuto() && !fragment.auto) {
+                EventSystem.triggerEvent("Codestrates.Fragment.AutoOn", {
+                    fragment: fragment
+                });
+            }
         });
     }
 });
@@ -130,17 +142,25 @@ MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
     groupOrder: 9000,
     order: 210,
     onOpen: (menu)=>{
-        if(menu.context.type == "DomTreeNode" && menu.context.context.querySelector("code-fragment[auto]") != null) {
-            return true;
+        if(menu.context.type == "DomTreeNode") {
+            let childFragments = Fragment.find(menu.context.context.querySelectorAll("code-fragment"));
+
+            let autoFragment = childFragments.find((fragment)=>{
+                return fragment.supportsAuto() && fragment.auto;
+            });
+
+            return autoFragment != null;
         }
     },
     onAction: (menuItem)=>{
         let fragments = menuItem.menu.context.context.querySelectorAll("code-fragment");
-        console.log("Disable auto on all", fragments);
         fragments.forEach((fragmentHtml)=>{
-            EventSystem.triggerEvent("Codestrates.Fragment.AutoOff", {
-                fragment: Fragment.one(fragmentHtml)
-            });
+            let fragment = Fragment.one(fragmentHtml);
+            if(fragment.supportsAuto() && fragment.auto) {
+                EventSystem.triggerEvent("Codestrates.Fragment.AutoOff", {
+                    fragment: fragment
+                });
+            }
         });
     }
 });
