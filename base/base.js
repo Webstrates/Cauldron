@@ -64,6 +64,7 @@ class CauldronBase {
             console: true,
             inspector: true,
             actionMenu: true,
+            tabContextMenu: true,
             mainMenu: true,
             dragAndDrop: true,
             goldenLayoutSaveState: true
@@ -707,6 +708,11 @@ class CauldronBase {
                                     if(e.button !== 2) {
                                        return;
                                     }
+
+                                    if(!self.config.tabContextMenu) {
+                                        return;
+                                    }
+
                                     let contextMenu = MenuSystem.MenuManager.createMenu("Cauldron.Tab.ContextMenu", {
                                         context: {tab:tab, editor:editorComponent},
                                         groupDividers: true
