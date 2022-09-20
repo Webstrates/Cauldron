@@ -134,14 +134,20 @@ class CauldronBase {
 
     /**
      * Opens Cauldron IDE
+     * Optionally inside another element
      */
-    async open() {
+    async open(optionalParentElement=false) {
         await this.setupGoldenLayout(this.goldenLayoutArea);
 
-        if(this.config.edgeDockerLoadMode) {
-            this.docker.loadMode(EdgeDocker.MODE.RIGHT);
+        this.docker.dockInto(optionalParentElement);
+        if (optionalParentElement){
+            this.docker.setMode(EdgeDocker.MODE.EMBEDDED);
         } else {
-            this.docker.setMode(EdgeDocker.MODE.RIGHT, false);
+            if(this.config.edgeDockerLoadMode) {
+                this.docker.loadMode(EdgeDocker.MODE.RIGHT);
+            } else {
+                this.docker.setMode(EdgeDocker.MODE.RIGHT, false);
+            }
         }
 
         await EventSystem.triggerEventAsync("Cauldron.OnOpen", {
@@ -152,8 +158,8 @@ class CauldronBase {
             let initialisedPromise = new Promise((resolve, reject)=>{
                 this.goldenLayout.on("initialised", ()=>{
                     resolve();
-                })
-            })
+                });
+            });
             this.goldenLayout.init();
             await initialisedPromise;
             this.goldenLayoutInitDone = true;
@@ -162,6 +168,7 @@ class CauldronBase {
             });
         }
     }
+      
 
     /**
      * Closes Cauldron IDE
