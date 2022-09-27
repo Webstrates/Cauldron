@@ -945,17 +945,24 @@ class CauldronBase {
                 return self.console.html;
             });
 
-            window.addEventListener("resize", ()=>{
-                let bounds = self.editorContentArea.getBoundingClientRect();
+
+            function resizeGoldenLayout(){
+                let bounds = {width: self.editorContentArea.offsetWidth, height:self.editorContentArea.offsetHeight};
 
                 let topBarHeight = 0;
-
                 if(self.topBar != null) {
-                    let topBarBounds = self.topBar.getBoundingClientRect();
-                    topBarHeight = topBarBounds.height;
+                    topBarHeight = self.topBar.offsetHeight;
                 }
                 self.goldenLayout.updateSize(bounds.width, bounds.height - topBarHeight);
+            }
+                        
+            window.addEventListener("resize", ()=>{
+                resizeGoldenLayout();
             });
+            let resizeObserver = new ResizeObserver((entries) => {
+                resizeGoldenLayout();
+            });
+            resizeObserver.observe(self.docker.getComponentArea());
 
             resolve();
         });
