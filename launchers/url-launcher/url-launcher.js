@@ -24,10 +24,8 @@ const editorMode = urlParams.get('edit');
 
 if(editorMode != null && editorMode !== false) {
     // Be nice to Codestrates if it is running
-    if (window.Fragment){
-        Fragment.disableAutorun = true;
-    }
-    
+    window.disableCodestratesFragmentsAutorun = true;
+
     EventSystem.registerEventCallback("Cauldron.OnInit", ({detail: {cauldron: cauldron}})=>{
         EventSystem.triggerEvent("Cauldron.Dock", {
             pos: EdgeDocker.MODE.MAXIMIZED
