@@ -2,6 +2,7 @@
     "friendlyName": "Codestrates Actions",
     "description": "Several actions that apply to code fragments",
     "dependencies": [
+        "#CauldronBase",
         "webstrate-components-repos #MenuSystem",
         "webstrate-components-repos #wsc-icon-registry"
     ],
