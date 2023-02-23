@@ -2,7 +2,8 @@
     "friendlyName": "Documentation Help Menu",
     "description": "Documentation for the help menu",
     "dependencies": [
-        "webstrate-components-repos #MenuSystem"
+        "webstrate-components-repos #MenuSystem",
+        "#CauldronBase"
     ],
     "assets": [],
     "version": "0.1",

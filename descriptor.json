@@ -1,0 +1,20 @@
+{
+  "friendlyName": "Cauldron Editor",
+  "description": "The base core functionality of Cauldron",
+  "dependencies": [
+    "#CauldronBase",
+    "#NewWebstrateActions",
+    "#DocumentActions",
+    "#CauldronEditorViewActions",
+    "#CauldronEditorTabActions",
+    "#CauldronEditorCodestratesActions",
+    "#CauldronEditorDocumentation",
+    "#CauldronCollaboration"
+  ],
+  "assets": [],
+  "version": "0.1",
+  "license": "Apache 2.0",
+  "changelog": {
+    "0.1": "Initial version"
+  }
+}

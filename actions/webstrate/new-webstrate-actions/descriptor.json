@@ -2,7 +2,8 @@
     "friendlyName": "New Webstrate",
     "description": "Actions that can create new Webstrates",
     "dependencies": [
-        "webstrate-components-repos #MenuSystem"
+        "webstrate-components-repos #MenuSystem",
+        "#CauldronBase"
     ],
     "assets": [],
     "version": "0.1",

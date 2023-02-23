@@ -3,7 +3,7 @@
     "description": "Actions that change Cauldron",
     "dependencies": [
         "webstrate-components-repos #MenuSystem",
-        "#CauldronSettings"
+        "#CauldronBase"
     ],
     "assets": [],
     "version": "0.1",

@@ -2,7 +2,8 @@
     "friendlyName": "Document Actions",
     "description": "Actions that change document",
     "dependencies": [
-        "webstrate-components-repos #MenuSystem"
+        "webstrate-components-repos #MenuSystem",
+        "#CauldronBase"
     ],
     "assets": [],
     "version": "0.1",
