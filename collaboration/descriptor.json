@@ -2,7 +2,8 @@
     "friendlyName": "Cauldron collabration module",
     "description": "Provides features for showing collaborators in different ways",
     "dependencies": [
-        "codestrates-repos #EventSystem"
+        "codestrates-repos #EventSystem",
+        "wpm_js_libs #cQuery"
     ],
     "assets": [],
     "version": "0.1",
