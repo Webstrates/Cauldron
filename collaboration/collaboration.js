@@ -360,6 +360,12 @@ class Collaboration {
 
         let fragment = cQuery(fragmentElement).data("Fragment");
 
+        //Check if fragment is transient
+        if(webstrate.config.isTransientElement(fragmentElement)) {
+            //No colaboration possible on transient elements
+            return;
+        }
+
         //Setup fragment listening of clients
         fragmentElement.webstrate.on("signal", (msg, sender)=>{
             if(sender === webstrate.clientId) {
