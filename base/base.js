@@ -228,18 +228,23 @@ class CauldronBase {
             }
         });        
 
-        EventSystem.registerEventCallback("TreeBrowser.TreeNode.Action", ({detail:{node: node, treeBrowser: treeBrowser}})=>{
-            if(node.type === "DomTreeNode" && node.context != null && node.context.matches("code-fragment")) {
-                let fragment = cQuery(node.context).data("Fragment");
-
-                EventSystem.triggerEvent("Cauldron.Open.FragmentEditor", {
-                    fragment: fragment
-                });
-
-                return true; //Prevent default event
+        EventSystem.registerEventCallback("TreeBrowser.TreeNode.Action", ({detail:{node: node, treeBrowser: treeBrowser}}) => {
+            if (node.type === "DomTreeNode" && node.context != null){
+                if (node.context.matches("code-fragment")){
+                    let fragment = cQuery(node.context).data("Fragment");
+                    EventSystem.triggerEvent("Cauldron.Open.FragmentEditor", {
+                        fragment: fragment
+                    });
+                    return true; //Prevent default event
+                } else if (node.context.matches("script, style")){
+                    EventSystem.triggerEvent("Cauldron.Open.InnerHTMLEditor", {
+                        element: node.context
+                    });
+                }
             }
         });
-
+     
+        
         EventSystem.registerEventCallback("Cauldron.Open.FragmentEditor", async ({detail: {fragment: fragment, line: line, column:column, editorClass: editorClass, titleWrapper: titleWrapper}})=>{
 
             if(editorClass == null) {

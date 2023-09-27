@@ -333,18 +333,23 @@ class CauldronBase {
             }
         });        
 
-        EventSystem.registerEventCallback("TreeBrowser.TreeNode.Action", ({detail:{node: node, treeBrowser: treeBrowser}})=>{
-            if(node.type === "DomTreeNode" && node.context != null && node.context.matches("code-fragment")) {
-                let fragment = cQuery(node.context).data("Fragment");
-
-                EventSystem.triggerEvent("Cauldron.Open.FragmentEditor", {
-                    fragment: fragment
-                });
-
-                return true; //Prevent default event
+        EventSystem.registerEventCallback("TreeBrowser.TreeNode.Action", ({detail:{node: node, treeBrowser: treeBrowser}}) => {
+            if (node.type === "DomTreeNode" && node.context != null){
+                if (node.context.matches("code-fragment")){
+                    let fragment = cQuery(node.context).data("Fragment");
+                    EventSystem.triggerEvent("Cauldron.Open.FragmentEditor", {
+                        fragment: fragment
+                    });
+                    return true; //Prevent default event
+                } else if (node.context.matches("script, style")){
+                    EventSystem.triggerEvent("Cauldron.Open.InnerHTMLEditor", {
+                        element: node.context
+                    });
+                }
             }
         });
-
+     
+        
         EventSystem.registerEventCallback("Cauldron.Open.FragmentEditor", async ({detail: {fragment: fragment, line: line, column:column, editorClass: editorClass, titleWrapper: titleWrapper}})=>{
 
             if(editorClass == null) {
@@ -2693,6 +2698,9 @@ EventSystem.registerEventCallback("Document.Edit.Title", ()=>{
  *  limitations under the License.
 **/
 
+let nonChildElements = "code-fragment, script, style";
+
+
 MenuSystem.MenuManager.registerMenuItem("Cauldron.Editor.Toolbar", {
     label: "Run",
     icon: IconRegistry.createIcon(["mdc:play_arrow"]),
@@ -2936,7 +2944,7 @@ EventSystem.registerEventCallback("Codestrates.DomNode.Delete", ({detail: {treeN
 });
 
 MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
-    label: "Insert WPM Package",
+    label: "New WPM Package",
     icon: IconRegistry.createIcon("webstrates:wpm-package-open"),
     order: 20,
     group: "inserters",
@@ -2972,49 +2980,98 @@ EventSystem.registerEventCallback("Codestrates.Fragment.CreateWPMPackage", ({det
     }, 0);
 });
 
-MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
-    label: "Insert DOM Element",
-    order: 10,
+function insertNewElement(context, elementType){
+    try {
+        let element = document.createElement(elementType, {approved: true});
+        context.context.appendChild(element);
+        setTimeout(()=>{
+            let treeBrowser = context.getTreeBrowser();
+            let treeNodes = treeBrowser.findTreeNodeForContext(element);
+            if(treeNodes.length > 0) {
+                let treeNode = treeNodes[0];
+                treeNode.reveal();
+                treeNode.select();
+            }
+        }, 1);
+        return element;
+    } catch(e) {
+        console.error(e);
+    }    
+}
+
+let domMenu = MenuSystem.MenuManager.createMenu("Cauldron.TreeBrowser.DOMInsertMenu");
+MenuSystem.MenuManager.registerMenuItem("Cauldron.TreeBrowser.DOMInsertMenu", {
+    label: "Script",
     icon: IconRegistry.createIcon("mdc:code"),                                
+    onAction: (menuItem)=>insertNewElement(menuItem.menu.superMenu.context, "script")
+});
+MenuSystem.MenuManager.registerMenuItem("Cauldron.TreeBrowser.DOMInsertMenu", {
+    label: "Stylesheet",
+    icon: IconRegistry.createIcon("mdc:brush"),                                
+    onAction: (menuItem)=>insertNewElement(menuItem.menu.superMenu.context, "style")
+});
+MenuSystem.MenuManager.registerMenuItem("Cauldron.TreeBrowser.DOMInsertMenu", {
+    label: "Div",
+    icon: IconRegistry.createIcon("mdc:html"),                                
+    onAction: (menuItem)=>insertNewElement(menuItem.menu.superMenu.context, "div")
+});
+
+
+MenuSystem.MenuManager.registerMenuItem("Cauldron.TreeBrowser.DOMInsertMenu", {
+    label: "Other Element...",
+    order: 999,
+    icon: IconRegistry.createIcon("mdc:html"),                                
+    group: "inserters",
+    groupOrder: -1,
+    onAction: (menuItem)=>{
+        let elementType = prompt("Element Tag");
+        if (elementType===null) return;
+        insertNewElement(menuItem.menu.superMenu.context, elementType);
+    }
+});
+
+MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
+    label: "New Folder...",
+    order: 1,
+    icon: IconRegistry.createIcon("mdc:create_new_folder"),                                
     group: "inserters",
     groupOrder: -1,
     onOpen: (menu)=>{
-        return menu.context.type == "DomTreeNode" && !menu.context.context.matches("code-fragment, wpm-package");
-    },
+        return menu.context.type == "DomTreeNode" && !menu.context.context.matches(nonChildElements);
+    },    
     onAction: (menuItem)=>{
-        let elementType = prompt("Which element?");
-        if (elementType===null) return;
-        
-        try {
-            let element = document.createElement(elementType, {approved: true});
-            menuItem.menu.context.context.appendChild(element);
-            setTimeout(()=>{
-                let treeBrowser = menuItem.menu.context.getTreeBrowser();
-                let treeNodes = treeBrowser.findTreeNodeForContext(element);
-                if(treeNodes.length > 0) {
-                    let treeNode = treeNodes[0];
-                    treeNode.reveal();
-                    treeNode.select();
-                }
-            }, 0);
-        } catch(e) {
-            console.error(e);
-        }
+        let elementName = prompt("Folder Name");
+        if (elementName===null) return;
+        let element = insertNewElement(menuItem.menu.context, "code-folder");
+        element.setAttribute("name", elementName);
     }
+});
+
+
+MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
+    label: "New DOM Element...",
+    order: 10,
+    icon: IconRegistry.createIcon("mdc:html"),                                
+    group: "inserters",
+    groupOrder: -1,
+    onOpen: (menu)=>{
+        return menu.context.type == "DomTreeNode" && !menu.context.context.matches(nonChildElements);
+    },
+    submenu: domMenu
 });
 
 let fragmentMenu = MenuSystem.MenuManager.createMenu("FragmentInsertMenu");
 
 MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
-    label: "Insert Fragment",
+    label: "New Fragment...",
     icon: IconRegistry.createIcon("mdc:note_add"),                            
-    order: 0,
+    order: 5,
     group: "inserters",
     groupOrder: -1,
     onOpen: (menu)=>{
         if (Fragment.fragmentTypes.size === 0) return false;
         
-        let canOpen = menu.context.type == "DomTreeNode" && !menu.context.context.matches("code-fragment");
+        let canOpen = menu.context.type == "DomTreeNode" && !menu.context.context.matches(nonChildElements);
         
         // Check for new fragments not already registered in the menu
         if (!fragmentMenu.alreadyRegistered){
