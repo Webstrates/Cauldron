@@ -2951,7 +2951,7 @@ MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
     groupOrder: -1,
     onOpen: (menu)=>{
         if (!window.DescriptorFragment) return false;
-        return menu.context.type == "DomTreeNode" && !menu.context.context.matches("code-fragment, wpm-package");
+        return menu.context.type == "DomTreeNode" && (!menu.context.context.matches("wpm-package")) && (!menu.context.context.matches(nonChildElements));
     },
     onAction: (menuItem)=>{
         EventSystem.triggerEvent("Codestrates.Fragment.CreateWPMPackage", {
