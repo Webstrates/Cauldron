@@ -1559,17 +1559,20 @@ class CauldronBase {
                                 if(!droppedIsBody && (!droppedIsInsideWpmPackage || !draggedIsWpmPackage)) {
                                     defaultDropEffect = true;
                                 }
-                            } else if(!node.context.matches("code-fragment, wpm-package") && node.context.closest("wpm-package") == null) {
-                                //We are not dragging inside code-fragment or wpm-package
-                                if (!dragged.treeNode.context.contains(node.context)) {
-                                    defaultDropEffect = true;
-                                }
-                            } else if(node.context.matches("wpm-package")) {
-                                //We are dragging into a wpm-package, make sure we dont ourselves include a wpm-package
-                                if(!dragged.treeNode.context.matches("wpm-package") && dragged.treeNode.context.querySelector("wpm-package") == null) {
+                            } else {
+                                // Normal dragging
+                                if (node.context.matches("script, style, code-fragment")){  
+                                    // Certain targets themselves don't accept any DOM node being dragged onto them, so ignore them                                    
+                                } else if ((node.context.matches("wpm-package") || node.context.closest("wpm-package")!=null) && (dragged.treeNode.context.matches("wpm-package")||dragged.treeNode.context.querySelector("wpm-package")!=null)){
+                                    // Also we cannot drop something containing WPM packages into a WPM package, so it is ignored
+                                } else if(dragged.treeNode.context.contains(node.context)) {
+                                    // You cannot drag something into part of itself, ignore it
+                                } else {
+                                    // All other moves are fair game
                                     defaultDropEffect = true;
                                 }
                             }
+
                         } else if(dragged.treeNode.type === "AssetNode") {
                             if(node.context.matches("wpm-package")) {
                                 let descFrag = cQuery(node.context.querySelector("code-fragment[data-type='wpm/descriptor']")).data("Fragment");
