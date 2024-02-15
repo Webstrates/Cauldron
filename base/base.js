@@ -76,7 +76,9 @@ class CauldronBase {
 
         //Setup EdgeDocker
         this.docker = new EdgeDocker({
-            mode: this.config.edgeDockerMode
+            mode: this.config.edgeDockerMode,
+            shadowRoot: true,
+            shadowCompatibility: true
         });
         this.docker.getComponentArea().classList.add("cauldron-themeable");
         this.docker.getComponentArea().setAttribute("cauldron-theme", Cauldron.CauldronSettings.getTheme());
