@@ -182,8 +182,8 @@ class CauldronBase {
         //Setup EdgeDocker
         this.docker = new EdgeDocker({
             mode: this.config.edgeDockerMode,
-            shadowRoot: Cauldron.CauldronSettings.getSetting("shadowRoot",false),
-            shadowCompatibility: Cauldron.CauldronSettings.getSetting("shadowRoot",false)
+            shadowRoot: Cauldron.CauldronSettings.getShadowRoot(),
+            shadowCompatibility: Cauldron.CauldronSettings.getShadowRoot()
         });
         this.docker.getComponentArea().classList.add("cauldron-themeable");
         this.docker.getComponentArea().setAttribute("cauldron-theme", Cauldron.CauldronSettings.getTheme());
@@ -1833,8 +1833,14 @@ class CauldronSettings {
     static getWordwrap() {
         return CauldronSettings.getSetting(CauldronSettings.SETTINGS.wordWrap, false);
     }
-    
-    
+
+    static getShadowRoot(){
+        return CauldronSettings.getSetting(CauldronSettings.SETTINGS.shadowRoot, false);
+    }
+    static setShadowRoot(value) {
+        CauldronSettings.setSetting(CauldronSettings.SETTINGS.shadowRoot, value);
+    }     
+
     static setTheme(theme) {
         CauldronSettings.setSetting(CauldronSettings.SETTINGS.theme, theme);
     }    
@@ -1911,7 +1917,8 @@ window.Cauldron.CauldronSettings = CauldronSettings;
 
 CauldronSettings.SETTINGS = {
     "wordWrap": "wordWrap",
-    "theme" : "theme"
+    "theme" : "theme",
+    "shadowRoot": "shadowRoot"
 };
 
 CauldronSettings.STORAGE_KEY = "Cauldron.Settings.Key";
@@ -2569,6 +2576,16 @@ EventSystem.registerEventCallback("Document.Edit.Title", ()=>{
             EventSystem.triggerEvent("Cauldron.ResetLayout");
         }
     });
+    
+    MenuSystem.MenuManager.registerMenuItem("Cauldron.View", {
+        label: (Cauldron.CauldronSettings.getShadowRoot()?"Disable":"Enable") +" ShadowDOM Experiment",
+        icon: IconRegistry.createIcon("mdc:science_off"),
+        order: 0,
+        onAction: (menuItem)=>{
+            Cauldron.CauldronSettings.setShadowRoot(!Cauldron.CauldronSettings.getShadowRoot());
+            window.location.reload();
+        }
+    });    
 }
 
 </script>

@@ -145,4 +145,14 @@
             EventSystem.triggerEvent("Cauldron.ResetLayout");
         }
     });
+    
+    MenuSystem.MenuManager.registerMenuItem("Cauldron.View", {
+        label: (Cauldron.CauldronSettings.getShadowRoot()?"Disable":"Enable") +" ShadowDOM Experiment",
+        icon: IconRegistry.createIcon("mdc:science_off"),
+        order: 0,
+        onAction: (menuItem)=>{
+            Cauldron.CauldronSettings.setShadowRoot(!Cauldron.CauldronSettings.getShadowRoot());
+            window.location.reload();
+        }
+    });    
 }

@@ -34,8 +34,14 @@ class CauldronSettings {
     static getWordwrap() {
         return CauldronSettings.getSetting(CauldronSettings.SETTINGS.wordWrap, false);
     }
-    
-    
+
+    static getShadowRoot(){
+        return CauldronSettings.getSetting(CauldronSettings.SETTINGS.shadowRoot, false);
+    }
+    static setShadowRoot(value) {
+        CauldronSettings.setSetting(CauldronSettings.SETTINGS.shadowRoot, value);
+    }     
+
     static setTheme(theme) {
         CauldronSettings.setSetting(CauldronSettings.SETTINGS.theme, theme);
     }    
@@ -112,7 +118,8 @@ window.Cauldron.CauldronSettings = CauldronSettings;
 
 CauldronSettings.SETTINGS = {
     "wordWrap": "wordWrap",
-    "theme" : "theme"
+    "theme" : "theme",
+    "shadowRoot": "shadowRoot"
 };
 
 CauldronSettings.STORAGE_KEY = "Cauldron.Settings.Key";
