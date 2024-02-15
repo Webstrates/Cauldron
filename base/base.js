@@ -67,7 +67,7 @@ class CauldronBase {
             tabContextMenu: true,
             mainMenu: true,
             dragAndDrop: true,
-            goldenLayoutSaveState: true
+            goldenLayoutSaveState: true,
         };
 
         this.config = Object.assign({}, defaultConfig, config);
@@ -77,8 +77,8 @@ class CauldronBase {
         //Setup EdgeDocker
         this.docker = new EdgeDocker({
             mode: this.config.edgeDockerMode,
-            shadowRoot: true,
-            shadowCompatibility: true
+            shadowRoot: Cauldron.CauldronSettings.getSetting("shadowRoot",false),
+            shadowCompatibility: Cauldron.CauldronSettings.getSetting("shadowRoot",false)
         });
         this.docker.getComponentArea().classList.add("cauldron-themeable");
         this.docker.getComponentArea().setAttribute("cauldron-theme", Cauldron.CauldronSettings.getTheme());
