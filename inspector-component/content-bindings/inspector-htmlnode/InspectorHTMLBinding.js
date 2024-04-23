@@ -18,6 +18,10 @@
  *  limitations under the License.
 **/
     
+/**
+ * Visual inspector of HTML and DOM elements
+ * @type type
+ */
 class InspectorHTMLBinding {
     /**
      * Inspects the given TreeNode and if supported, returns a map of editable attributes

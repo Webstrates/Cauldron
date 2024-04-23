@@ -18,8 +18,8 @@
  *  limitations under the License.
 **/
 
+// Filter with elements that cannot have children
 let nonChildElements = "code-fragment, script, style";
-
 
 MenuSystem.MenuManager.registerMenuItem("Cauldron.Editor.Toolbar", {
     label: "Run",

@@ -18,6 +18,10 @@
  *  limitations under the License.
  **/
 
+/**
+ * Allow setting settings in localStorage
+ * @type type
+ */
 class CauldronSettings {
     /**
      * Sets word-wrap state

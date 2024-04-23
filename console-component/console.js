@@ -18,6 +18,9 @@
  *  limitations under the License.
 **/
 
+/**
+ * A textual console for error logging
+ */
 window.Cauldron.CauldronConsole = class CauldronConsole {
     constructor() {
         let self = this;

@@ -1817,6 +1817,10 @@ window.Cauldron.Cauldron = CauldronBase;
  *  limitations under the License.
  **/
 
+/**
+ * Allow setting settings in localStorage
+ * @type type
+ */
 class CauldronSettings {
     /**
      * Sets word-wrap state
@@ -1966,6 +1970,9 @@ CauldronSettings.STORAGE_KEY = "Cauldron.Settings.Key";
  *  limitations under the License.
 **/
     
+/**
+ * The primary top menu of Cauldron
+ */    
 window.CauldronMainMenu = class MainMenu {
     constructor(){        
         this.menu = MenuSystem.MenuManager.createMenu("Cauldron.MainMenu", {
@@ -2076,6 +2083,9 @@ window.CauldronMainMenu = class MainMenu {
  *  limitations under the License.
 **/
 
+/**
+ * A menu for prominent Cauldron actions like closing Cauldron
+ */
 window.CauldronActionMenu = class MainActions {
     constructor(){        
         this.menu = MenuSystem.MenuManager.createMenu("Cauldron.MainActions", {
@@ -2658,8 +2668,8 @@ if (typeof webstrate !== "undefined"){
  *  limitations under the License.
 **/
 
+// Filter with elements that cannot have children
 let nonChildElements = "code-fragment, script, style";
-
 
 MenuSystem.MenuManager.registerMenuItem("Cauldron.Editor.Toolbar", {
     label: "Run",
@@ -3413,6 +3423,9 @@ EventSystem.registerEventCallback("Codestrates.Asset.Delete", async ({detail: {a
  *  limitations under the License.
 **/
 
+/**
+ * A textual console for error logging
+ */
 window.Cauldron.CauldronConsole = class CauldronConsole {
     constructor() {
         let self = this;
@@ -3774,6 +3787,10 @@ window.Cauldron.CauldronConsole = class CauldronConsole {
  *  limitations under the License.
 **/
 
+/**
+ * Visual inspector of various elements that can be edited in Cauldron
+ * @type type
+ */
 class CauldronInspector {
     constructor(){
         let self = this;
@@ -3933,6 +3950,10 @@ window.Cauldron.InspectorHTMLElement = InspectorHTMLElement;
  *  limitations under the License.
 **/
     
+/**
+ * Visual inspector of HTML and DOM elements
+ * @type type
+ */
 class InspectorHTMLBinding {
     /**
      * Inspects the given TreeNode and if supported, returns a map of editable attributes
@@ -4145,6 +4166,10 @@ EventSystem.registerEventCallback("TreeBrowser.Keyup", ({detail: {evt: evt, tree
  *  limitations under the License.
 **/
 
+/**
+ * Visual inspector for webstrate assets
+ * @type type
+ */
 class InspectorAssetBinding {
     /**
      * Inspects the given TreeNode and if supported, returns a map of inspector elements

@@ -18,6 +18,10 @@
  *  limitations under the License.
 **/
 
+/**
+ * Visual inspector for webstrate assets
+ * @type type
+ */
 class InspectorAssetBinding {
     /**
      * Inspects the given TreeNode and if supported, returns a map of inspector elements

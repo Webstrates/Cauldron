@@ -18,6 +18,10 @@
  *  limitations under the License.
 **/
 
+/**
+ * Visual inspector of various elements that can be edited in Cauldron
+ * @type type
+ */
 class CauldronInspector {
     constructor(){
         let self = this;

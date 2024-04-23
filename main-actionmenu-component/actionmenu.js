@@ -18,6 +18,9 @@
  *  limitations under the License.
 **/
 
+/**
+ * A menu for prominent Cauldron actions like closing Cauldron
+ */
 window.CauldronActionMenu = class MainActions {
     constructor(){        
         this.menu = MenuSystem.MenuManager.createMenu("Cauldron.MainActions", {

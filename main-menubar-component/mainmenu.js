@@ -18,6 +18,9 @@
  *  limitations under the License.
 **/
     
+/**
+ * The primary top menu of Cauldron
+ */    
 window.CauldronMainMenu = class MainMenu {
     constructor(){        
         this.menu = MenuSystem.MenuManager.createMenu("Cauldron.MainMenu", {
