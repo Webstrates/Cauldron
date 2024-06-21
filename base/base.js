@@ -649,7 +649,7 @@ class CauldronBase {
                         serialize: (state)=>{
                             //Serialized needed state into string
                             if(state.fragment != null && typeof state.fragment !== "string") {
-                                state.fragment = state.fragment.html[0].__wid;
+                                state.fragment = state.fragment.element.__wid;
                             }
                             if(state.editorClass != null && typeof state.editorClass !== "string") {
                                 state.editorClass = state.editorClass.prototype.constructor.name;
@@ -664,7 +664,7 @@ class CauldronBase {
                         deserialize: (state)=>{
                             //Deserialize state, and return true/false if success
                             state.fragment = Fragment.find("code-fragment").find((frag)=>{
-                                return frag.html[0].__wid === state.fragment;
+                                return frag.element.__wid === state.fragment;
                             });
 
                             if(state.editorClass != null) {

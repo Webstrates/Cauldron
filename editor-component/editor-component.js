@@ -174,14 +174,14 @@ class CauldronEditor {
     
     get title() {
         let content = "";
-        let name = this.fragment.html[0].getAttribute("name");
+        let name = this.fragment.element.getAttribute("name");
         if (name != null && name != ""){
             content = name+" ";
-        } else if(this.fragment.html[0].id != null && this.fragment.html[0].id!="") {
-            content += "#"+this.fragment.html[0].id;
+        } else if(this.fragment.element.id != null && this.fragment.element.id!="") {
+            content += "#"+this.fragment.element.id;
         }
         if (!content){
-            content = this.fragment.html[0].tagName.toLowerCase();
+            content = this.fragment.element.tagName.toLowerCase();
         }
         if(typeof this.options.titleWrapper === "function") {
             return this.options.titleWrapper(content);
@@ -192,7 +192,7 @@ class CauldronEditor {
     
     get tooltip(){
         let type = this.fragment.type;
-        let id = this.fragment.html[0].getAttribute("id");
+        let id = this.fragment.element.getAttribute("id");
 
         let tooltip = "Fragment";
 
@@ -315,7 +315,7 @@ class CauldronEditor {
         let requireLine = null;
 
         if(requireData instanceof Fragment) {
-            let fragmentId = requireData.html[0].getAttribute("id");
+            let fragmentId = requireData.element.getAttribute("id");
             switch(type) {
                 case "text/javascript":
                 case "text/typescript":

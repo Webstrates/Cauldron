@@ -150,7 +150,7 @@ class Collaboration {
             let deleter = MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.MetaMenu", {
                 icon: self.getClientIcon(client.id),
                 onOpen: (menu, item)=>{
-                    return menu.context === fragment.html[0];
+                    return menu.context === fragment.element;
                 }
             });
 
@@ -261,7 +261,7 @@ class Collaboration {
         let channel = webstrate;
 
         if(options.fragment != null) {
-            channel = options.fragment.html[0].webstrate;
+            channel = options.fragment.element.webstrate;
         }
 
         if(channel != null) {

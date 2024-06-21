@@ -284,7 +284,7 @@ EventSystem.registerEventCallback("Codestrates.Fragment.CreateWPMPackage", ({det
     let wpmPackage = document.createElement("wpm-package");
 
     let wpmDescriptor = Fragment.create("wpm/descriptor");
-    wpmPackage.appendChild(wpmDescriptor.html[0]);
+    wpmPackage.appendChild(wpmDescriptor.element);
 
     WPMv2.stripProtection(wpmPackage);
 
@@ -404,12 +404,12 @@ MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
                     icon: IconRegistry.createIcon(["code-fragment:"+fragType, "mdc:insert_drive_file"]),
                     onAction: (menuItem)=>{
                         let fragment = Fragment.create(fragType);
-                        WPMv2.stripProtection(fragment.html);
-                        menuItem.menu.superMenu.context.context.appendChild(fragment.html[0]);
+                        WPMv2.stripProtection(fragment.element);
+                        menuItem.menu.superMenu.context.context.appendChild(fragment.element);
                         setTimeout(()=>{
                             //Find the newly added treenode and open the editor
                             let treeBrowser = menuItem.menu.superMenu.context.getTreeBrowser();
-                            let treeNodes = treeBrowser.findTreeNodeForContext(fragment.html[0]);
+                            let treeNodes = treeBrowser.findTreeNodeForContext(fragment.element);
                             if(treeNodes.length > 0) {
                                 let treeNode = treeNodes[0];
                                 treeNode.reveal();

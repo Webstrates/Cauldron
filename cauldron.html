@@ -754,7 +754,7 @@ class CauldronBase {
                         serialize: (state)=>{
                             //Serialized needed state into string
                             if(state.fragment != null && typeof state.fragment !== "string") {
-                                state.fragment = state.fragment.html[0].__wid;
+                                state.fragment = state.fragment.element.__wid;
                             }
                             if(state.editorClass != null && typeof state.editorClass !== "string") {
                                 state.editorClass = state.editorClass.prototype.constructor.name;
@@ -769,7 +769,7 @@ class CauldronBase {
                         deserialize: (state)=>{
                             //Deserialize state, and return true/false if success
                             state.fragment = Fragment.find("code-fragment").find((frag)=>{
-                                return frag.html[0].__wid === state.fragment;
+                                return frag.element.__wid === state.fragment;
                             });
 
                             if(state.editorClass != null) {
@@ -1985,6 +1985,19 @@ window.CauldronMainMenu = class MainMenu {
             groupDividers: true,
             growDirection: MenuSystem.Menu.GrowDirection.DOWN
         });
+        let syncMenu = MenuSystem.MenuManager.createMenu("Cauldron.File.Sync");
+        fileMenu.addItem({
+            label: "Sync...",
+            group: "FileDirect",
+            groupOrder: -1,
+            order: 100,
+            icon: IconRegistry.createIcon("mdc:cloud_sync"),
+            onOpen: (menu)=>{
+                return syncMenu.menuItems && syncMenu.menuItems.length>0;
+            },
+            submenu: syncMenu
+        });
+        
         this.menu.addItem({            
             label: "File",
             order: 0,
@@ -2934,7 +2947,7 @@ EventSystem.registerEventCallback("Codestrates.Fragment.CreateWPMPackage", ({det
     let wpmPackage = document.createElement("wpm-package");
 
     let wpmDescriptor = Fragment.create("wpm/descriptor");
-    wpmPackage.appendChild(wpmDescriptor.html[0]);
+    wpmPackage.appendChild(wpmDescriptor.element);
 
     WPMv2.stripProtection(wpmPackage);
 
@@ -3054,12 +3067,12 @@ MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
                     icon: IconRegistry.createIcon(["code-fragment:"+fragType, "mdc:insert_drive_file"]),
                     onAction: (menuItem)=>{
                         let fragment = Fragment.create(fragType);
-                        WPMv2.stripProtection(fragment.html);
-                        menuItem.menu.superMenu.context.context.appendChild(fragment.html[0]);
+                        WPMv2.stripProtection(fragment.element);
+                        menuItem.menu.superMenu.context.context.appendChild(fragment.element);
                         setTimeout(()=>{
                             //Find the newly added treenode and open the editor
                             let treeBrowser = menuItem.menu.superMenu.context.getTreeBrowser();
-                            let treeNodes = treeBrowser.findTreeNodeForContext(fragment.html[0]);
+                            let treeNodes = treeBrowser.findTreeNodeForContext(fragment.element);
                             if(treeNodes.length > 0) {
                                 let treeNode = treeNodes[0];
                                 treeNode.reveal();
@@ -3536,15 +3549,15 @@ window.Cauldron.CauldronConsole = class CauldronConsole {
 
         if (fragment){
             source.appendChild(IconRegistry.createIcon(["code-fragment:"+fragment.type, "mdc:insert_drive_file"]));
-            if (fragment.html[0].getAttribute("name")) sourceName = fragment.html[0].getAttribute("name")+" ";
-            if (fragment.html[0].id) sourceName += "#"+fragment.html[0].id;
-            if (sourceName==="") sourceName = fragment.html[0].tagName.toLowerCase();
+            if (fragment.element.getAttribute("name")) sourceName = fragment.element.getAttribute("name")+" ";
+            if (fragment.element.id) sourceName += "#"+fragment.element.id;
+            if (sourceName==="") sourceName = fragment.element.tagName.toLowerCase();
 
             new CaviTouch(source);
 
             source.addEventListener("caviTap", ()=>{
                 TreeBrowser.findAllTreeBrowsers().forEach((tb)=>{
-                    tb.findTreeNodeForContext(fragment.html[0]).forEach((tn)=>{
+                    tb.findTreeNodeForContext(fragment.element).forEach((tn)=>{
                         tn.reveal();
                         tn.select();
                     });
@@ -3553,7 +3566,7 @@ window.Cauldron.CauldronConsole = class CauldronConsole {
 
             source.addEventListener("caviDoubleTap", ()=>{
                 TreeBrowser.findAllTreeBrowsers().forEach((tb)=>{
-                    tb.findTreeNodeForContext(fragment.html[0]).forEach((tn)=>{
+                    tb.findTreeNodeForContext(fragment.element).forEach((tn)=>{
                         tn.triggerAction();
                     });
                 });
@@ -4666,14 +4679,14 @@ class CauldronEditor {
     
     get title() {
         let content = "";
-        let name = this.fragment.html[0].getAttribute("name");
+        let name = this.fragment.element.getAttribute("name");
         if (name != null && name != ""){
             content = name+" ";
-        } else if(this.fragment.html[0].id != null && this.fragment.html[0].id!="") {
-            content += "#"+this.fragment.html[0].id;
+        } else if(this.fragment.element.id != null && this.fragment.element.id!="") {
+            content += "#"+this.fragment.element.id;
         }
         if (!content){
-            content = this.fragment.html[0].tagName.toLowerCase();
+            content = this.fragment.element.tagName.toLowerCase();
         }
         if(typeof this.options.titleWrapper === "function") {
             return this.options.titleWrapper(content);
@@ -4684,7 +4697,7 @@ class CauldronEditor {
     
     get tooltip(){
         let type = this.fragment.type;
-        let id = this.fragment.html[0].getAttribute("id");
+        let id = this.fragment.element.getAttribute("id");
 
         let tooltip = "Fragment";
 
@@ -4807,7 +4820,7 @@ class CauldronEditor {
         let requireLine = null;
 
         if(requireData instanceof Fragment) {
-            let fragmentId = requireData.html[0].getAttribute("id");
+            let fragmentId = requireData.element.getAttribute("id");
             switch(type) {
                 case "text/javascript":
                 case "text/typescript":
@@ -5077,7 +5090,7 @@ class Collaboration {
             let deleter = MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.MetaMenu", {
                 icon: self.getClientIcon(client.id),
                 onOpen: (menu, item)=>{
-                    return menu.context === fragment.html[0];
+                    return menu.context === fragment.element;
                 }
             });
 
@@ -5188,7 +5201,7 @@ class Collaboration {
         let channel = webstrate;
 
         if(options.fragment != null) {
-            channel = options.fragment.html[0].webstrate;
+            channel = options.fragment.element.webstrate;
         }
 
         if(channel != null) {

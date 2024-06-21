@@ -33,6 +33,19 @@ window.CauldronMainMenu = class MainMenu {
             groupDividers: true,
             growDirection: MenuSystem.Menu.GrowDirection.DOWN
         });
+        let syncMenu = MenuSystem.MenuManager.createMenu("Cauldron.File.Sync");
+        fileMenu.addItem({
+            label: "Sync...",
+            group: "FileDirect",
+            groupOrder: -1,
+            order: 100,
+            icon: IconRegistry.createIcon("mdc:cloud_sync"),
+            onOpen: (menu)=>{
+                return syncMenu.menuItems && syncMenu.menuItems.length>0;
+            },
+            submenu: syncMenu
+        });
+        
         this.menu.addItem({            
             label: "File",
             order: 0,

@@ -131,15 +131,15 @@ window.Cauldron.CauldronConsole = class CauldronConsole {
 
         if (fragment){
             source.appendChild(IconRegistry.createIcon(["code-fragment:"+fragment.type, "mdc:insert_drive_file"]));
-            if (fragment.html[0].getAttribute("name")) sourceName = fragment.html[0].getAttribute("name")+" ";
-            if (fragment.html[0].id) sourceName += "#"+fragment.html[0].id;
-            if (sourceName==="") sourceName = fragment.html[0].tagName.toLowerCase();
+            if (fragment.element.getAttribute("name")) sourceName = fragment.element.getAttribute("name")+" ";
+            if (fragment.element.id) sourceName += "#"+fragment.element.id;
+            if (sourceName==="") sourceName = fragment.element.tagName.toLowerCase();
 
             new CaviTouch(source);
 
             source.addEventListener("caviTap", ()=>{
                 TreeBrowser.findAllTreeBrowsers().forEach((tb)=>{
-                    tb.findTreeNodeForContext(fragment.html[0]).forEach((tn)=>{
+                    tb.findTreeNodeForContext(fragment.element).forEach((tn)=>{
                         tn.reveal();
                         tn.select();
                     });
@@ -148,7 +148,7 @@ window.Cauldron.CauldronConsole = class CauldronConsole {
 
             source.addEventListener("caviDoubleTap", ()=>{
                 TreeBrowser.findAllTreeBrowsers().forEach((tb)=>{
-                    tb.findTreeNodeForContext(fragment.html[0]).forEach((tn)=>{
+                    tb.findTreeNodeForContext(fragment.element).forEach((tn)=>{
                         tn.triggerAction();
                     });
                 });
