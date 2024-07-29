@@ -2,7 +2,7 @@
  *  Cauldron Settings
  *  Provides settings that are preserved via localStorage
  *
- *  Copyright 2020, 2021 Rolf Bagge, Janus B. Kristensen, CAVI,
+ *  Copyright 2020, 2021, 2024 Rolf Bagge, Janus B. Kristensen, CAVI,
  *  Center for Advanced Visualization and Interaction, Aarhus University
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -50,7 +50,14 @@ class CauldronSettings {
         CauldronSettings.setSetting(CauldronSettings.SETTINGS.theme, theme);
     }    
     
+    static setPageTheme(theme){
+        CauldronSettings.pageTheme = theme;
+    }
+    
     static getTheme(){
+        // If the page has its own theme, use that
+        if (CauldronSettings.pageTheme) return CauldronSettings.pageTheme;
+        
         // Try to detect the browser default theme if not set
         let defaultTheme = "light";
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
