@@ -1387,6 +1387,14 @@ class CauldronBase {
                 });
             }
         }
+        async function uploadFileAsset(file){
+            if (webstrate?.addAssetFromFile){
+                await webstrate.addAssetFromFile(file);
+            } else {
+                // Attempt a POST for servers that do not support upload through API
+                await Uploader.upload(location.href, file, file.name);
+            }
+        }
 
         EventSystem.registerEventCallback("TreeBrowser.TreeNode.Dropped", ({detail: { draggedNode: draggedNode, droppedNode: droppedNode, dropEffect: dropEffect, dragEvent: dragEvent}})=>{
             if(draggedNode.type === "DomTreeNode" && droppedNode.type === "DomTreeNode") {
@@ -1500,27 +1508,24 @@ class CauldronBase {
         EventSystem.registerEventCallback("TreeBrowser.Files.Dropped", async ({detail: { files: files, droppedNode: droppedNode}})=>{
             if(droppedNode.type === "AssetNode" || droppedNode.type === "AssetRootNode") {
                 let parentNode = droppedNode.parentNode;
-
                 for(let file of Array.from(files)) {
-                    await Uploader.upload(location.href, file, file.name);
+                    await uploadFileAsset(file);
+                    
+                    // Drop on an asset in a WPMv2 package
                     if(parentNode != null && parentNode.type === "DomTreeNode" && parentNode.context.matches("wpm-package")) {
-
                         let descFrag = cQuery(parentNode.context.querySelector("code-fragment[data-type='wpm/descriptor']")).data("Fragment");
-
                         addAssetToDescriptor(descFrag, file.name);
                     }
                 }
-            }
-
-            if(droppedNode.type === "DomTreeNode" && droppedNode.context.matches("wpm-package")) {
+            } else if(droppedNode.type === "DomTreeNode" && droppedNode.context.matches("wpm-package")) {
+                // Drop into a WPMv2 package
                 let descFrag = cQuery(droppedNode.context.querySelector("code-fragment[data-type='wpm/descriptor']")).data("Fragment");
                 if(descFrag != null) {
                     for(let file of Array.from(files)) {
-                        await Uploader.upload(location.href, file, file.name);
+                        await uploadFileAsset(file);
                         addAssetToDescriptor(descFrag, file.name);
                     }
                 }
-
             }
         });
 
