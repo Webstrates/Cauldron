@@ -3,6 +3,7 @@
  *  Menu entries related to assets in wpm packages
  * 
  *  Copyright 2020, 2021 Rolf Bagge, Janus B. Kristensen, CAVI,
+ *  Copyright 2024 Janus B. Kristensen   
  *  Center for Advanced Visualization and Interaction, Aarhus University
  *    
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,6 +31,19 @@ MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
         EventSystem.triggerEvent("Cauldron.Asset.Download", {
             asset: menuItem.menu.context.context
         });
+    }
+});
+
+MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
+    label: "Upload Files...",
+    group: "TransferActions",
+    groupOrder: 0,
+    icon: IconRegistry.createIcon("mdc:cloud_upload"),                                
+    onOpen: (menu)=>{        
+        return menu.context.type == "AssetRootNode" && webstrate?.uploadAsset;
+    },
+    onAction: (menuItem) =>{
+        webstrate.uploadAsset();
     }
 });
 
@@ -139,3 +153,4 @@ EventSystem.registerEventCallback("Codestrates.Asset.Delete", async ({detail: {a
         });
     }
 });
+

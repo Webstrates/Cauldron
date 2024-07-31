@@ -5,6 +5,7 @@
     "#CauldronBase",
     "#NewWebstrateActions",
     "#DocumentActions",
+    "#CauldronAssetActions",
     "#CauldronEditorViewActions",
     "#CauldronEditorTabActions",
     "#CauldronEditorCodestratesActions",

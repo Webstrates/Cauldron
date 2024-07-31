@@ -1,0 +1,15 @@
+{
+    "friendlyName": "Webstrate Asset Actions",
+    "description": "Management of assets",
+    "dependencies": [
+        "#CauldronBase",
+        "webstrate-components-repos #MenuSystem",
+        "webstrate-components-repos #wsc-icon-registry"
+    ],
+    "assets": [],
+    "version": "0.1",
+    "license": "Apache 2.0",
+    "changelog": {
+        "0.1": "Initial version"
+    }
+}

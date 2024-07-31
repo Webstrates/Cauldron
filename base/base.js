@@ -594,7 +594,7 @@ class CauldronBase {
                 self.goldenLayout = new GoldenLayout(config, container);
             }
 
-            //Register TreeBrowser
+            // Register TreeBrowser
             await self.registerComponent("TreeBrowser", (state)=>{
                 let rootNode = new TreeNode({
                     context: null,
