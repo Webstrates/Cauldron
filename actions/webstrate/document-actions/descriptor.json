@@ -1,6 +1,6 @@
 {
     "friendlyName": "Document Actions",
-    "description": "Actions that change document",
+    "description": "Actions that change the webstrate itself",
     "dependencies": [
         "webstrate-components-repos #MenuSystem",
         "#CauldronBase"

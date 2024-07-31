@@ -22,7 +22,7 @@
  * The primary top menu of Cauldron
  */    
 window.CauldronMainMenu = class MainMenu {
-    constructor(){        
+    constructor(cauldron){        
         this.menu = MenuSystem.MenuManager.createMenu("Cauldron.MainMenu", {
             keepOpen: true,
             layoutDirection: MenuSystem.Menu.LayoutDirection.HORIZONTAL
@@ -30,6 +30,7 @@ window.CauldronMainMenu = class MainMenu {
         
         // Register the basic submenus etc. that are always there
         let fileMenu = MenuSystem.MenuManager.createMenu("Cauldron.File", {
+            context: {cauldron: cauldron},
             groupDividers: true,
             growDirection: MenuSystem.Menu.GrowDirection.DOWN
         });

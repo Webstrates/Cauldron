@@ -198,7 +198,7 @@ class CauldronBase {
         if(this.config.mainMenu) {
             this.topBar = document.createElement("div");
             this.topBar.classList.add("cauldron-base-top");
-            this.mainMenu = new CauldronMainMenu();
+            this.mainMenu = new CauldronMainMenu(this);
             this.docker.setupDragHandle(this.mainMenu.html);
         }
         
@@ -307,6 +307,14 @@ class CauldronBase {
     setBounds(x, y, width, height) {
         this.docker.setBounds(x, y, width, height);
     }
+    
+    /**
+     * The parent element to insert popups and overlays into when opening menus etc
+     * @returns element
+     */
+    getPopupParent(){
+        return this.docker.getComponentArea();
+    }
 
     /**
      * @private
@@ -335,7 +343,7 @@ class CauldronBase {
                 self.docker.getComponentArea().setAttribute("cauldron-theme", theme);
             }
         });        
-
+        
         EventSystem.registerEventCallback("TreeBrowser.TreeNode.Action", ({detail:{node: node, treeBrowser: treeBrowser}}) => {
             if (node.type === "DomTreeNode" && node.context != null){
                 if (node.context.matches("code-fragment")){
@@ -435,100 +443,6 @@ class CauldronBase {
                 self.createComponent("Inspector", {}, false);
             }
         });
-
-        if (typeof webstrate !== "undefined"){
-            // Only show revisions and permissions if running in webstrate mode
-            MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
-                label: "Revisions...",
-                group: "FileMeta",
-                groupOrder: 0,
-                icon: IconRegistry.createIcon("mdc:restore"),
-                order: 0,
-                onAction: ()=>{
-                    let revisionBrowser = new RevisionBrowser();
-
-                    let dialog = new WebstrateComponents.ModalDialog(revisionBrowser.html, {maximize: true});
-                    self.docker.getComponentArea().appendChild(dialog.html);
-                    dialog.open();
-
-                    EventSystem.registerEventCallback("RevisionBrowser.OnRestore", (evt)=>{
-                        if(evt.detail === revisionBrowser) {
-                            dialog.close();
-                        }
-                    });
-
-                }
-            });
-
-            MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
-                label: "Permissions...",
-                group: "FileMeta",
-                groupOrder: 0,
-                icon: IconRegistry.createIcon("mdc:admin_panel_settings"),
-                order: 0,
-                onAction: ()=>{
-                    let pmui = new WebstrateComponents.PermissionManagerUI();
-                    pmui.setTopLevelComponent(self.docker.getComponentArea());
-
-                    let dialog = new WebstrateComponents.ModalDialog(pmui.html);
-                    self.docker.getComponentArea().appendChild(dialog.html);
-                    dialog.open();
-
-                    EventSystem.registerEventCallback("PermissionManagerUI.Saved", (evt)=>{
-                        if(evt.detail === pmui) {
-                            dialog.close();
-                        }
-                    });
-                }
-            });    
-        }
-        
-        MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
-            label: "Properties...",
-            group: "FileMeta",
-            groupOrder: 0,
-            icon: IconRegistry.createIcon("mdc:build_circle"),
-            order: 0,
-            onAction: ()=>{
-                let headEditor = new HeadEditorComponent(false);
-                let dialog = new WebstrateComponents.ModalDialog(headEditor.html, {
-                    title: "File Properties",
-                    actions: {
-                        "Close":{primary:true}
-                    }
-                });
-                self.docker.getComponentArea().appendChild(dialog.html);
-                dialog.open();
-
-                EventSystem.registerEventCallback("HeadEditorComponent.OnClose", (evt)=>{
-                    if(evt.detail === headEditor) {
-                        dialog.close();
-                    }
-                });
-            }
-        });           
-        
-        MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
-            label: "Packages...",
-            group: "FileMeta",
-            groupOrder: 0,
-            icon: IconRegistry.createIcon("mdc:extension"),
-            order: 0,
-            onAction: ()=>{
-                let packageBrowser = new WPMPackageBrowser(false);
-                packageBrowser.setTopLevelComponent(self.docker.getComponentArea());
-
-                let dialog = new WebstrateComponents.ModalDialog(packageBrowser.html, {flexContent: true});
-                self.docker.getComponentArea().appendChild(dialog.html);
-                dialog.open();
-
-                EventSystem.registerEventCallback("WPMPackageBrowser.OnClose", (evt)=>{
-                    if(evt.detail === packageBrowser) {
-                        dialog.close();
-                    }
-                });
-            }
-        });   
     }
 
     /**
@@ -1987,7 +1901,7 @@ CauldronSettings.STORAGE_KEY = "Cauldron.Settings.Key";
  * The primary top menu of Cauldron
  */    
 window.CauldronMainMenu = class MainMenu {
-    constructor(){        
+    constructor(cauldron){        
         this.menu = MenuSystem.MenuManager.createMenu("Cauldron.MainMenu", {
             keepOpen: true,
             layoutDirection: MenuSystem.Menu.LayoutDirection.HORIZONTAL
@@ -1995,6 +1909,7 @@ window.CauldronMainMenu = class MainMenu {
         
         // Register the basic submenus etc. that are always there
         let fileMenu = MenuSystem.MenuManager.createMenu("Cauldron.File", {
+            context: {cauldron: cauldron},
             groupDividers: true,
             growDirection: MenuSystem.Menu.GrowDirection.DOWN
         });
@@ -2359,7 +2274,7 @@ if (typeof webstrate !== "undefined"){
                 <script id="descriptor-script" type="descriptor">
 {
     "friendlyName": "Document Actions",
-    "description": "Actions that change document",
+    "description": "Actions that change the webstrate itself",
     "dependencies": [
         "webstrate-components-repos #MenuSystem",
         "#CauldronBase"
@@ -2374,13 +2289,123 @@ if (typeof webstrate !== "undefined"){
 
 </script>
 
-                <template id="document-title-edit-dialog-tpl">
-    <div>
-        <label>Title: <input type="text" class="title"></label>
-        <br>
-        <button class="save">Save</button><button class="cancel">Cancel</button>
-    </div>
-</template>
+                <script id="document-actions-script" type="disabled">
+/**
+ *  Document Actions
+ *  Menu entries related to the Webstrate Document
+ * 
+ *  Copyright 2020, 2021 Rolf Bagge, Janus B. Kristensen, CAVI,
+ *  Copyright 2024 Janus B. Kristensen   
+ *  Center for Advanced Visualization and Interaction, Aarhus University
+ *    
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+**/
+
+if (webstrate?.tags){
+    // Show revisions if webstrate supports tagging
+    MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
+        label: "Revisions...",
+        group: "FileMeta",
+        groupOrder: 0,
+        icon: IconRegistry.createIcon("mdc:restore"),
+        order: 0,
+        onAction: (menuItem)=>{
+            let revisionBrowser = new RevisionBrowser();
+            let dialog = new WebstrateComponents.ModalDialog(revisionBrowser.html, {maximize: true});
+            menuItem.menu.context.cauldron.getPopupParent().appendChild(dialog.html);
+            dialog.open();
+
+            EventSystem.registerEventCallback("RevisionBrowser.OnRestore", (evt)=>{
+                if(evt.detail === revisionBrowser) {
+                    dialog.close();
+                }
+            });
+        }
+    });
+}
+
+if (webstrate?.permissions){
+    MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
+        label: "Permissions...",
+        group: "FileMeta",
+        groupOrder: 0,
+        icon: IconRegistry.createIcon("mdc:admin_panel_settings"),
+        order: 0,
+        onAction: (menuItem)=>{
+            let parent = menuItem.menu.context.cauldron.getPopupParent();
+            let pmui = new WebstrateComponents.PermissionManagerUI();
+            pmui.setTopLevelComponent(parent);
+            let dialog = new WebstrateComponents.ModalDialog(pmui.html);
+            parent.appendChild(dialog.html);
+            dialog.open();
+
+            EventSystem.registerEventCallback("PermissionManagerUI.Saved", (evt)=>{
+                if(evt.detail === pmui) {
+                    dialog.close();
+                }
+            });
+        }
+    });    
+}
+
+MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
+    label: "Properties...",
+    group: "FileMeta",
+    groupOrder: 0,
+    icon: IconRegistry.createIcon("mdc:build_circle"),
+    order: 0,
+    onAction: (menuItem)=>{
+        let headEditor = new HeadEditorComponent(false);
+        let dialog = new WebstrateComponents.ModalDialog(headEditor.html, {
+            title: "File Properties",
+            actions: {
+                "Close":{primary:true}
+            }
+        });
+        menuItem.menu.context.cauldron.getPopupParent().appendChild(dialog.html);
+        dialog.open();
+
+        EventSystem.registerEventCallback("HeadEditorComponent.OnClose", (evt)=>{
+            if(evt.detail === headEditor) {
+                dialog.close();
+            }
+        });
+    }
+});           
+
+MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
+    label: "Packages...",
+    group: "FileMeta",
+    groupOrder: 0,
+    icon: IconRegistry.createIcon("mdc:extension"),
+    order: 0,
+    onAction: (menuItem)=>{
+        let parent = menuItem.menu.context.cauldron.getPopupParent();
+        let packageBrowser = new WPMPackageBrowser(false);
+        packageBrowser.setTopLevelComponent(parent);
+        let dialog = new WebstrateComponents.ModalDialog(packageBrowser.html, {flexContent: true});
+        parent.appendChild(dialog.html);
+        dialog.open();
+
+        EventSystem.registerEventCallback("WPMPackageBrowser.OnClose", (evt)=>{
+            if(evt.detail === packageBrowser) {
+                dialog.close();
+            }
+        });
+    }
+});   
+
+</script>
 
             </div>
             <div class="package" id="CauldronEditorViewActions">
