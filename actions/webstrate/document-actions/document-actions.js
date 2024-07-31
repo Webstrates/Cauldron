@@ -112,3 +112,36 @@ MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
         });
     }
 });   
+
+
+// Download as archive
+if (webstrate?.exportToZip){
+    MenuSystem.MenuManager.registerMenuItem("Cauldron.File.Export", {
+        label: "As Zip-Archive...",
+        tooltip: "Flat format including assets",
+        icon: IconRegistry.createIcon("mdc:archive"),                
+        onAction: ()=>{
+            webstrate.exportToZip();
+        }
+    });    
+} else if (typeof webstrate !== "undefined"){
+    // Assume old-school HTTP API
+    MenuSystem.MenuManager.registerMenuItem("Cauldron.File.Export", {
+        label: "As Zip-Archive...",
+        tooltip: "Flat format including assets",
+        icon: IconRegistry.createIcon("mdc:archive"),                
+        onAction: ()=>{
+            window.location = location.href + "?dl";
+        }
+    });    
+}
+if (webstrate?.saveToZip){
+    MenuSystem.MenuManager.registerMenuItem("Cauldron.File.Export", {
+        label: "As Zip-Archive (Native)...",
+        tooltip: "Binary format including history",
+        icon: IconRegistry.createIcon("mdc:archive"),                
+        onAction: ()=>{
+            webstrate.saveToZip();
+        }
+    });        
+}

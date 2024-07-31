@@ -1925,6 +1925,18 @@ window.CauldronMainMenu = class MainMenu {
             },
             submenu: syncMenu
         });
+        let exportMenu = MenuSystem.MenuManager.createMenu("Cauldron.File.Export");
+        fileMenu.addItem({
+            label: "Export...",
+            group: "FileDirect",
+            groupOrder: -1,
+            order: 100,
+            icon: IconRegistry.createIcon("mdc:download"),
+            onOpen: (menu)=>{
+                return exportMenu.menuItems && exportMenu.menuItems.length>0;
+            },
+            submenu: exportMenu
+        });        
         
         this.menu.addItem({            
             label: "File",
@@ -2139,16 +2151,6 @@ if (typeof webstrate !== "undefined"){
         }
     });
 
-    // Download as archive
-    MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
-        label: "Download",
-        group: "FileDirect",
-        icon: IconRegistry.createIcon("mdc:archive"),                
-        onAction: ()=>{
-            EventSystem.triggerEvent("Cauldron.Webstrate.Download");
-        }
-    });
-
     // New copy from this one
     MenuSystem.MenuManager.registerMenuItem("Cauldron.File.NewWebstrate", {        
         label: "Copy",
@@ -2180,27 +2182,6 @@ if (typeof webstrate !== "undefined"){
                 type: "file"
             });
         }
-    });
-
-    EventSystem.registerEventCallback("Cauldron.Webstrate.Download", ()=>{
-        let iframe = document.createElement("iframe");
-        let transient = document.createElement("transient");
-        transient.style.display = "none";
-
-        transient.appendChild(iframe);
-
-        iframe.webstrate.on("transcluded", async (webstrate)=>{
-            console.log("Webstrate created:", webstrate);
-
-            //Insert WPMv2
-            await WPMv2.installWPMInto("/"+webstrate);
-
-            transient.remove();
-        });
-
-        iframe.src = location.href + "?dl";
-
-        document.body.appendChild(transient);
     });
 
     EventSystem.registerEventCallback("Cauldron.Webstrate.New", ({detail: {type: type}})=>{
@@ -2404,6 +2385,39 @@ MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
         });
     }
 });   
+
+
+// Download as archive
+if (webstrate?.exportToZip){
+    MenuSystem.MenuManager.registerMenuItem("Cauldron.File.Export", {
+        label: "As Zip-Archive...",
+        tooltip: "Flat format including assets",
+        icon: IconRegistry.createIcon("mdc:archive"),                
+        onAction: ()=>{
+            webstrate.exportToZip();
+        }
+    });    
+} else if (typeof webstrate !== "undefined"){
+    // Assume old-school HTTP API
+    MenuSystem.MenuManager.registerMenuItem("Cauldron.File.Export", {
+        label: "As Zip-Archive...",
+        tooltip: "Flat format including assets",
+        icon: IconRegistry.createIcon("mdc:archive"),                
+        onAction: ()=>{
+            window.location = location.href + "?dl";
+        }
+    });    
+}
+if (webstrate?.saveToZip){
+    MenuSystem.MenuManager.registerMenuItem("Cauldron.File.Export", {
+        label: "As Zip-Archive (Native)...",
+        tooltip: "Binary format including history",
+        icon: IconRegistry.createIcon("mdc:archive"),                
+        onAction: ()=>{
+            webstrate.saveToZip();
+        }
+    });        
+}
 
 </script>
 

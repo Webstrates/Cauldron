@@ -46,6 +46,18 @@ window.CauldronMainMenu = class MainMenu {
             },
             submenu: syncMenu
         });
+        let exportMenu = MenuSystem.MenuManager.createMenu("Cauldron.File.Export");
+        fileMenu.addItem({
+            label: "Export...",
+            group: "FileDirect",
+            groupOrder: -1,
+            order: 100,
+            icon: IconRegistry.createIcon("mdc:download"),
+            onOpen: (menu)=>{
+                return exportMenu.menuItems && exportMenu.menuItems.length>0;
+            },
+            submenu: exportMenu
+        });        
         
         this.menu.addItem({            
             label: "File",
