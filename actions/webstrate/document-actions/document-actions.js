@@ -137,7 +137,7 @@ if (webstrate?.exportToZip){
 }
 if (webstrate?.saveToZip){
     MenuSystem.MenuManager.registerMenuItem("Cauldron.File.Export", {
-        label: "As Zip-Archive (Native)...",
+        label: "As Native Binary Archive...",
         tooltip: "Binary format including history",
         icon: IconRegistry.createIcon("mdc:archive"),                
         onAction: ()=>{

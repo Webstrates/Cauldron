@@ -26,114 +26,65 @@ if (typeof webstrate !== "undefined"){
         group: "FileDirect",
         groupOrder: -1,
         order: -1,
+        onOpen: (menu)=>{
+            return newMenu.menuItems && newMenu.menuItems.length>0;
+        },
         icon: IconRegistry.createIcon("mdc:note_add"),
         submenu: newMenu
     });
 
-    // New empty webstrate
-    MenuSystem.MenuManager.registerMenuItem("Cauldron.File.NewWebstrate", {
-        label: "Empty",
-        icon: IconRegistry.createIcon("mdc:description"),        
-        onAction: ()=>{
-            EventSystem.triggerEvent("Cauldron.Webstrate.New", {
-                type: "empty"
-            });
-        }
-    });
-
     // New copy from this one
-    MenuSystem.MenuManager.registerMenuItem("Cauldron.File.NewWebstrate", {        
+    // STUB: no copy api yet
+    /*MenuSystem.MenuManager.registerMenuItem("Cauldron.File.NewWebstrate", {        
         label: "Copy",
+        tooltip: "A new copy of this webstrate without history",
         icon: IconRegistry.createIcon("mdc:file_copy"),        
         onAction: ()=>{
             EventSystem.triggerEvent("Cauldron.Webstrate.New", {
                 type: "copy"
             });
         }
-    });
+    });*/
 
     // New from prototype url
-    MenuSystem.MenuManager.registerMenuItem("Cauldron.File.NewWebstrate", {
-        label: "From URL...",
-        icon: IconRegistry.createIcon("mdc:link"),        
-        onAction: ()=>{
-            EventSystem.triggerEvent("Cauldron.Webstrate.New", {
-                type: "url"
-            });
-        }
-    });
-
-    // New from prototype file
-    MenuSystem.MenuManager.registerMenuItem("Cauldron.File.NewWebstrate", {
-        label: "From File...",
-        icon: IconRegistry.createIcon("mdc:unarchive"),        
-        onAction: ()=>{
-            EventSystem.triggerEvent("Cauldron.Webstrate.New", {
-                type: "file"
-            });
-        }
-    });
-
-    EventSystem.registerEventCallback("Cauldron.Webstrate.New", ({detail: {type: type}})=>{
-        let iframe = document.createElement("iframe");
-        let transient = document.createElement("transient");
-        transient.style.display = "none";
-
-        transient.appendChild(iframe);
-
-        iframe.webstrate.on("transcluded", async (webstrate)=>{
-            console.log("Webstrate created:", webstrate);
-
-            //Insert WPMv2
-            await WPMv2.installWPMInto("/"+webstrate);
-
-            transient.remove();
-
-            window.open("/"+webstrate);
-        });
-
-        switch(type) {
-            case "empty":
-                iframe.src = "/new";
-                break;
-            case "copy":
-                iframe.src = location.href + "?copy";
-                break;
-            case "file": {
-                let fileInput = document.createElement("input");
-                fileInput.setAttribute("type", "file");
-                fileInput.setAttribute("name", "file");
-                fileInput.setAttribute("accept", ".zip");
-                fileInput.click();
-
-                fileInput.addEventListener("input", ()=>{
-                    let formElement = document.createElement("form");
-                    formElement.appendChild(fileInput);
-
-                    let formData = new FormData(formElement);
-
-                    fetch("/new", {
-                        method: "POST",
-                        body: formData
-                    }).then((response)=>{
-                        iframe.src = response.url;
-                    });
-                });
-                break;
-            }
-            case "url": {
+    if (webstrate.newFromPrototypeURL){
+        MenuSystem.MenuManager.registerMenuItem("Cauldron.File.NewWebstrate", {
+            label: "From URL...",
+            icon: IconRegistry.createIcon("mdc:link"),        
+            onAction: ()=>{
                 let url = prompt("Prototype URL:");
-
-                if(url.trim().length > 0) {
-                    iframe.src = "/new?prototypeUrl="+url;
-                }
-
-                break;
+                if(url && url.trim().length > 0) {
+                    webstrate.newFromPrototypeURL(url,"urlprototype-"+(Math.random().toString(16).substr(2,8)));
+                }                
             }
-            default:
-                console.log("Unknown type:", type);
-        }
+        });
+    }
 
-        document.body.appendChild(transient);
-    });
+    // New from prototype zip
+    if (webstrate.newFromPrototypeFile || webstrate.importFromZip){
+        MenuSystem.MenuManager.registerMenuItem("Cauldron.File.NewWebstrate", {
+            label: "From Zip-Archive...",
+            tooltip: "Import from archive with assets",
+            icon: IconRegistry.createIcon("mdc:unarchive"),        
+            onAction: async ()=>{
+                if (webstrate.importFromZip){
+                    webstrate.importFromZip();
+                } else if (webstrate.newFromPrototypeFile){
+                    let id = "fileprototype-"+(Math.random().toString(16).substr(2,8));
+                    await webstrate.newFromPrototypeFile(id);
+                    window.open("/"+id, '_blank').focus();
+                }
+            }
+        });        
+    }
+    if (webstrate.loadFromZip){
+        MenuSystem.MenuManager.registerMenuItem("Cauldron.File.NewWebstrate", {
+            label: "From Native Binary Archive...",
+            tooltip: "Load from archive with history",
+            icon: IconRegistry.createIcon("mdc:unarchive"),        
+            onAction: ()=>{
+                webstrate.loadFromZip();
+            }
+        });        
+    }
 }
