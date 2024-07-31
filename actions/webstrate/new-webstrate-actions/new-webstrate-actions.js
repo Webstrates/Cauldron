@@ -34,17 +34,28 @@ if (typeof webstrate !== "undefined"){
     });
 
     // New copy from this one
-    // STUB: no copy api yet
-    /*MenuSystem.MenuManager.registerMenuItem("Cauldron.File.NewWebstrate", {        
-        label: "Copy",
-        tooltip: "A new copy of this webstrate without history",
-        icon: IconRegistry.createIcon("mdc:file_copy"),        
-        onAction: ()=>{
-            EventSystem.triggerEvent("Cauldron.Webstrate.New", {
-                type: "copy"
-            });
-        }
-    });*/
+    if (webstrate.copy){
+        MenuSystem.MenuManager.registerMenuItem("Cauldron.File.NewWebstrate", {        
+            label: "Copy",
+            tooltip: "A new copy of this webstrate without history",
+            icon: IconRegistry.createIcon("mdc:file_copy"),        
+            onAction: ()=>{
+                webstrate.copy();
+            }
+        });
+    }
+    if (webstrate.clone){
+        MenuSystem.MenuManager.registerMenuItem("Cauldron.File.NewWebstrate", {        
+            label: "Clone With History",
+            tooltip: "A new clone of this webstrate with history",
+            icon: IconRegistry.createIcon("mdc:file_copy"),        
+            onAction: ()=>{
+                webstrate.clone();
+            }
+        });
+    }
+
+
 
     // New from prototype url
     if (webstrate.newFromPrototypeURL){
