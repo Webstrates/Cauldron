@@ -5,6 +5,12 @@
         "webstrate-components-repos #MenuSystem",
         "#CauldronBase"
     ],
+    "optionalDependencies": [
+        "webstrate-components-repos #WPMPackageBrowser",
+        "webstrate-components-repos #PermissionManager",
+        "webstrate-components-repos #RevisionBrowser",
+        "webstrate-components-repos #HeadEditorComponent"
+    ],
     "assets": [],
     "version": "0.1",
     "license": "Apache 2.0",    

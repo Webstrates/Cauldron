@@ -27,7 +27,8 @@ if (webstrate?.tags){
         groupOrder: 0,
         icon: IconRegistry.createIcon("mdc:restore"),
         order: 0,
-        onAction: (menuItem)=>{
+        onAction: async (menuItem)=>{
+            await wpm.require("RevisionBrowser");            
             let revisionBrowser = new RevisionBrowser();
             let dialog = new WebstrateComponents.ModalDialog(revisionBrowser.html, {maximize: true});
             menuItem.menu.context.cauldron.getPopupParent().appendChild(dialog.html);
@@ -49,7 +50,8 @@ if (webstrate?.permissions){
         groupOrder: 0,
         icon: IconRegistry.createIcon("mdc:admin_panel_settings"),
         order: 0,
-        onAction: (menuItem)=>{
+        onAction: async (menuItem)=>{
+            await wpm.require("PermissionManager");            
             let parent = menuItem.menu.context.cauldron.getPopupParent();
             let pmui = new WebstrateComponents.PermissionManagerUI();
             pmui.setTopLevelComponent(parent);
@@ -72,7 +74,8 @@ MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
     groupOrder: 0,
     icon: IconRegistry.createIcon("mdc:build_circle"),
     order: 0,
-    onAction: (menuItem)=>{
+    onAction: async (menuItem)=>{
+        await wpm.require("HeadEditorComponent");
         let headEditor = new HeadEditorComponent(false);
         let dialog = new WebstrateComponents.ModalDialog(headEditor.html, {
             title: "File Properties",
@@ -97,7 +100,8 @@ MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
     groupOrder: 0,
     icon: IconRegistry.createIcon("mdc:extension"),
     order: 0,
-    onAction: (menuItem)=>{
+    onAction: async (menuItem)=>{
+        await wpm.require("WPMPackageBrowser");
         let parent = menuItem.menu.context.cauldron.getPopupParent();
         let packageBrowser = new WPMPackageBrowser(false);
         packageBrowser.setTopLevelComponent(parent);

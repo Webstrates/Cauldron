@@ -34,7 +34,9 @@ window.CauldronMainMenu = class MainMenu {
             groupDividers: true,
             growDirection: MenuSystem.Menu.GrowDirection.DOWN
         });
-        let syncMenu = MenuSystem.MenuManager.createMenu("Cauldron.File.Sync");
+        let syncMenu = MenuSystem.MenuManager.createMenu("Cauldron.File.Sync", {
+            context: {cauldron: cauldron}
+        });
         fileMenu.addItem({
             label: "Sync...",
             group: "FileDirect",
