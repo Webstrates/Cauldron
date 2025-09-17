@@ -45,7 +45,7 @@ if (typeof webstrate !== "undefined"){
             icon: IconRegistry.createIcon("mdc:open_in_new"),        
             order: 1000, //Order us very low priority, so near the end of the menu
             onAction: ()=>{
-                window.open(location.href+"?edit");
+                window.open(location.href.split(/[?#]/)[0] + "?edit");
             }
         });
     });

@@ -2374,7 +2374,7 @@ if (webstrate?.exportToZip){
         tooltip: "Flat format including assets",
         icon: IconRegistry.createIcon("mdc:archive"),                
         onAction: ()=>{
-            window.location = location.href + "?dl";
+            window.location = location.href.split(/[?#]/)[0] + "?dl";
         }
     });    
 }
@@ -3252,7 +3252,7 @@ MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
 
 EventSystem.registerEventCallback("Cauldron.Asset.Download", ({detail: {asset: asset}})=>{
     let a = document.createElement("a");
-    a.setAttribute("href", location.href+asset.fileName);
+    a.setAttribute("href", location.href.split(/[?#]/)[0] + asset.fileName);
     a.setAttribute("download", asset.fileName);
     a.setAttribute("target", "_blank");
     a.click();
@@ -3356,7 +3356,6 @@ EventSystem.registerEventCallback("Codestrates.Asset.Delete", async ({detail: {a
         });
     }
 });
-
 
 </script>
 
@@ -4396,7 +4395,7 @@ class InspectorAssetPreviewElement extends Cauldron.InspectorElement {
             case "image/x-icon":
             case "image/png":
                 element = document.createElement("img");
-                element.src = location.href.split("?")[0] + this.treeNode.context["fileName"];
+                element.src = location.href.split(/[?#]/)[0] + this.treeNode.context["fileName"];
                 break;
                 
             case "video/x-matroska":
@@ -4405,7 +4404,7 @@ class InspectorAssetPreviewElement extends Cauldron.InspectorElement {
             case "video/webm":
             case "video/opgg":
                 element = document.createElement("video");
-                element.src = location.href.split("?")[0] + this.treeNode.context["fileName"];
+                element.src = location.href.split(/[?#]/)[0] + this.treeNode.context["fileName"];
                 element.setAttribute("controls", true);
                 break;
                 
@@ -4414,7 +4413,7 @@ class InspectorAssetPreviewElement extends Cauldron.InspectorElement {
             case "audio/ogg":
             case "audio/mpeg":
                 element = document.createElement("audio");
-                element.src = location.href.split("?")[0] + this.treeNode.context["fileName"];
+                element.src = location.href.split(/[?#]/)[0] + this.treeNode.context["fileName"];
                 element.setAttribute("controls", true);
                 break;
 
@@ -4536,9 +4535,11 @@ window.Cauldron.InspectorAssetPreviewElement = InspectorAssetPreviewElement;
           top: 10%;
           height: 80%;
           background: rgba(0, 0, 0, 0.8);
+          border-radius: 8px;
           box-shadow: 0 0 1em;
           z-index: 9000;
-          animation: 0.1s cauldron-inspector-asset-preview-appears ease-out; }
+          animation: 0.1s cauldron-inspector-asset-preview-appears ease-out;
+          object-fit: contain; }
 </style>
 
             </div>
@@ -5688,7 +5689,7 @@ if (typeof webstrate !== "undefined"){
             icon: IconRegistry.createIcon("mdc:open_in_new"),        
             order: 1000, //Order us very low priority, so near the end of the menu
             onAction: ()=>{
-                window.open(location.href+"?edit");
+                window.open(location.href.split(/[?#]/)[0] + "?edit");
             }
         });
     });

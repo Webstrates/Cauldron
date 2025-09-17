@@ -49,7 +49,7 @@ MenuSystem.MenuManager.registerMenuItem("TreeBrowser.TreeNode.ContextMenu", {
 
 EventSystem.registerEventCallback("Cauldron.Asset.Download", ({detail: {asset: asset}})=>{
     let a = document.createElement("a");
-    a.setAttribute("href", location.href+asset.fileName);
+    a.setAttribute("href", location.href.split(/[?#]/)[0] + asset.fileName);
     a.setAttribute("download", asset.fileName);
     a.setAttribute("target", "_blank");
     a.click();
@@ -153,4 +153,3 @@ EventSystem.registerEventCallback("Codestrates.Asset.Delete", async ({detail: {a
         });
     }
 });
-

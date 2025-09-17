@@ -105,12 +105,13 @@
                     top: 10%;
                     height: 80%;
                     background: rgba(0,0,0,0.8);
-                    box-shadow: 0 0 1em;                    
+                    border-radius: 8px;
+                    box-shadow: 0 0 1em;
                     z-index: 9000;
                     animation: 0.1s cauldron-inspector-asset-preview-appears ease-out;
+                    object-fit: contain;
                 }
             }
         }    
     }
 }
-

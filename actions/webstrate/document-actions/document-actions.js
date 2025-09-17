@@ -135,7 +135,7 @@ if (webstrate?.exportToZip){
         tooltip: "Flat format including assets",
         icon: IconRegistry.createIcon("mdc:archive"),                
         onAction: ()=>{
-            window.location = location.href + "?dl";
+            window.location = location.href.split(/[?#]/)[0] + "?dl";
         }
     });    
 }
