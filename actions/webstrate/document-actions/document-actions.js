@@ -19,7 +19,7 @@
  *  limitations under the License.
 **/
 
-if (webstrate?.tags){
+if (window.webstrate?.tags){
     // Show revisions if webstrate supports tagging
     MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
         label: "Revisions...",
@@ -43,7 +43,7 @@ if (webstrate?.tags){
     });
 }
 
-if (webstrate?.permissions){
+if (window.webstrate?.permissions){
     MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
         label: "Permissions...",
         group: "FileMeta",
@@ -119,7 +119,7 @@ MenuSystem.MenuManager.registerMenuItem("Cauldron.File", {
 
 
 // Download as archive
-if (webstrate?.exportToZip){
+if (window.webstrate?.exportToZip){
     MenuSystem.MenuManager.registerMenuItem("Cauldron.File.Export", {
         label: "As Zip-Archive...",
         tooltip: "Flat format including assets",
@@ -139,7 +139,7 @@ if (webstrate?.exportToZip){
         }
     });    
 }
-if (webstrate?.saveToZip){
+if (window.webstrate?.saveToZip){
     MenuSystem.MenuManager.registerMenuItem("Cauldron.File.Export", {
         label: "As Native Binary Archive...",
         tooltip: "Binary format including history",
